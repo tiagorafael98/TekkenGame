@@ -55,7 +55,7 @@
                new Jogos {ID=8, Titulo="Tekken 6: Bloodline Rebellion", Logotipo="Tekken6BloodlineRebellion.jpg", Resumo = "Tem o mesmo enredo que o Tekken 6, mas com a adição de duas novas personagens: Lars e Alisa Bosconovitch."},
                new Jogos {ID=9, Titulo="Tekken 7", Logotipo="Tekken7.jpg", Resumo="Após os eventos de Tekken 6, a guerra entre a Mishima Zaibatsu e a G Corporation ainda continua junto com o desaparecimento de Jin Kazama. Com Heihachi na liderança da Mishima Zaibatsu após derrotar Nina (guarda de Jin que tem um papel importante na Mishima Zaibatsu), anuncia o torneio Torneio King of Iron Fist 7. As duas empresas procuram Jin e tentam expôr os podres uma da outra de forma a que cada uma vá à falência. Depois de muita confusão, Heihachi e Kazuya voltam a enfrentar-se para uma batalha final que termina na morte de um deles." },
                new Jogos {ID=10, Titulo="Tekken Tag Tournament", Logotipo="TekkenTagTournament.jpg", Resumo = "Não faz parte da história canónica do jogo. Chama-se 'Tag Team' por serem 2 lutadores contra 2 lutares ",},
-               new Jogos {ID=11, Titulo="Tekken Tournament 2", Logotipo="TekkenTagTournament2.jpg", Resumo = "Não faz parte da história canónica do jogo. Chama-se 'Tag Team' por serem 2 lutadores contra 2 lutares. É a segunda edição do 'Tekken Tag Tournament'.", },
+               new Jogos {ID=11, Titulo="Tekken Tag Tournament 2", Logotipo="TekkenTagTournament2.jpg", Resumo = "Não faz parte da história canónica do jogo. Chama-se 'Tag Team' por serem 2 lutadores contra 2 lutares. É a segunda edição do 'Tekken Tag Tournament'.", },
 
             };
             jogos.ForEach(vv => context.Jogos.AddOrUpdate(v => v.ID, vv));
@@ -217,6 +217,8 @@
                 new Personagens {ID=76, Nome="Sebastian", Origem="Monaco", TipoLuta="Dança Freestyle e acrobática", Fotografia="Sebastian.jpg", Biografia="123",  ListaDeJogos = new List<Jogos>{ jogos[10] } },
 
                 new Personagens {ID=77, Nome="Slim Bob", Origem="Estados Unidos da América", TipoLuta="Karaté estilo livre", Fotografia="SlimBob.jpg", Biografia="123",  ListaDeJogos = new List<Jogos>{ jogos[10] } },
+
+                new Personagens {ID=78, Nome="Negan", Origem="Estados Unidos da América", TipoLuta="Não definido. Utiliza a Lucile, a sua arma branca, para lutar.", Fotografia="Negan.jpg", Biografia="123",  ListaDeJogos = new List<Jogos>{ jogos[8] } },
 
             };
             personagens.ForEach(aa => context.Personagens.AddOrUpdate(a => a.ID, aa));
