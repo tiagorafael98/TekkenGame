@@ -1,0 +1,43 @@
+﻿@model IEnumerable<TekkenGame.Models.Personagens>
+
+@{
+    ViewBag.Title = "Personagens";
+}
+
+<h2>Conheça todas as personagens</h2>
+
+<p>
+    @Html.ActionLink("Criar nova personagem", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fotografia)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.Fotografia)*@
+            <a href="~/Personagens/Details/@item.ID">
+                <img src="~/ImagemPers/@item.Fotografia" width="150" height="160" />
+            </a>
+        </td>
+
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Detalhes", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Apagar", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
