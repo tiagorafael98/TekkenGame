@@ -1,0 +1,57 @@
+﻿@model TekkenGame.Models.Jogos
+
+@{
+    ViewBag.Title = "Detalhes do jogo";
+}
+
+<h2>Detalhes do jogo</h2>
+
+<div>
+    @* <h4>Jogos</h4>*@
+    <hr />
+    <div>
+        <td>
+            <a href="~/ImagemCapas/@Model.Logotipo" target="_blank">
+                <img src="~/ImagemCapas/@Model.Logotipo" width="400" height="457" />
+            </a>
+        </td>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Resumo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Resumo)
+        </dd>
+
+        <dt>Personagens</dt>
+        <dd>
+            @if(Model.ListaDePersonagens.Count() > 0 )
+            {
+                foreach(var personagem in Model.ListaDePersonagens)
+                {
+                    <td>
+                        <a href="~/Personagens/Details/@personagem.ID">
+                            <img src="~/ImagemPers/@personagem.Fotografia" width="150" height="160"/>
+                        </a>
+                    </td>
+                    <span>@personagem.Nome</span><br /><br />
+                }
+            }
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Voltar à lista de jogos", "Index")
+</p>

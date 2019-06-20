@@ -169,6 +169,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JogosController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PersonagensController.cs" />
     <Compile Include="Global.asax.cs">
@@ -201,7 +202,9 @@
     <Content Include="ImagemCapas\Tekken3.jpg" />
     <Content Include="ImagemCapas\Tekken4.jpg" />
     <Content Include="ImagemCapas\Tekken5.jpg" />
+    <Content Include="ImagemCapas\Tekken5DarkResurrection.jpg" />
     <Content Include="ImagemCapas\Tekken6.jpg" />
+    <Content Include="ImagemCapas\Tekken6BloodlineRebellion.jpg" />
     <Content Include="ImagemCapas\Tekken7.jpg" />
     <Content Include="ImagemCapas\TekkenTagTournament.jpg" />
     <Content Include="ImagemCapas\TekkenTagTournament2.jpg" />
@@ -343,6 +346,11 @@
     <Content Include="Views\Personagens\Details.cshtml" />
     <Content Include="Views\Personagens\Edit.cshtml" />
     <Content Include="Views\Personagens\Index.cshtml" />
+    <Content Include="Views\Jogos\Create.cshtml" />
+    <Content Include="Views\Jogos\Delete.cshtml" />
+    <Content Include="Views\Jogos\Details.cshtml" />
+    <Content Include="Views\Jogos\Edit.cshtml" />
+    <Content Include="Views\Jogos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

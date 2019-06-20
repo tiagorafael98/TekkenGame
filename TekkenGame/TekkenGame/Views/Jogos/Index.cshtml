@@ -1,0 +1,43 @@
+﻿@model IEnumerable<TekkenGame.Models.Jogos>
+
+@{
+    ViewBag.Title = "Jogos";
+}
+
+<h2>Jogos</h2>
+
+<p>
+    @Html.ActionLink("Adicionar novo jogo", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Logotipo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Titulo)
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.Logotipo)*@
+
+            <a href="~/Jogos/Details/@item.ID" target="_blank">
+                <img src="~/ImagemCapas/@item.Logotipo" width="150" height="180" />
+            </a>
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Detalhes", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Apagar", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

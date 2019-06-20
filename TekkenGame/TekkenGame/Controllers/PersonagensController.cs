@@ -154,7 +154,7 @@ namespace TekkenGame.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nome,Origem,TipoLuta,Fotografia,Biografia")] Personagens personagem)
+        public ActionResult Edit([Bind(Include = "ID,Nome,Origem,TipoLuta,Fotografia,Biografia")] Personagens personagem, HttpPostedFileBase uploadFotografia)
         {
             /// existe imagem?
             ///    se não existe, nada se faz => manter a anterior
@@ -170,7 +170,19 @@ namespace TekkenGame.Controllers
             if (ModelState.IsValid)
             {
                 // neste caso, já existe uma Personagem e apenas quero EDITAR os seus dados
-                db.Entry(personagem).State = EntityState.Modified;
+                // db.Entry(personagem).State = EntityState.Modified;
+
+                // editar imagem
+                if (uploadFotografia != null)
+                {
+                    if (System.IO.File.Exists(Server.MapPath("~/ImagemPers/" + personagem.ID + personagem.Fotografia)))
+                    {
+                        System.IO.File.Delete(Server.MapPath("~/ImagemPers/" + personagem.ID + personagem.Fotografia));
+                    }
+                    personagem.Fotografia = Path.GetExtension(uploadFotografia.FileName);
+
+                    uploadFotografia.SaveAs(Path.Combine(Server.MapPath("~/ImagemPers/" + personagem.ID + personagem.Fotografia)));
+                }
                 // efetuar o 'Commit'
                 db.SaveChanges();
                 return RedirectToAction("Index");

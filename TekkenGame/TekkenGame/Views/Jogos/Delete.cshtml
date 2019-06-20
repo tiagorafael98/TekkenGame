@@ -1,0 +1,51 @@
+﻿@model TekkenGame.Models.Jogos
+
+@{
+    ViewBag.Title = "Apagar jogo";
+}
+
+<h2>Apagar jogo</h2>
+
+<h3>Tem a certeza que pretende apagar este jogo da lista?</h3>
+<div>
+    <h4>Jogos</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Logotipo)
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.Logotipo)*@
+            <a href="~/ImagemCapas/@Model.Logotipo" target="_blank">
+                <img src="~/ImagemCapas/@Model.Logotipo" width="150" height="160" />
+            </a>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Resumo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Resumo)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Voltar à lista de jogos", "Index")
+        </div>
+    }
+</div>
