@@ -79,7 +79,7 @@ namespace TekkenGame.Controllers
                 // criar o caminho completo até ao sítio onde o ficheiro será guardado
                 path = Path.Combine(Server.MapPath("~/ImagemCapas/"), nomeImagem);
 
-                jogo.Logotipo = nomeImagem;
+                jogo.Fotografia = nomeImagem;
             }
             else
             {
@@ -138,13 +138,13 @@ namespace TekkenGame.Controllers
                 // editar imagem
                 if (uploadFotografia != null)
                 {
-                    if (System.IO.File.Exists(Server.MapPath("~/ImagemCapas/" + jogo.ID + jogo.Logotipo)))
+                    if (System.IO.File.Exists(Server.MapPath("~/ImagemCapas/" + jogo.ID + jogo.Fotografia)))
                     {
-                        System.IO.File.Delete(Server.MapPath("~/ImagemCapas/" + jogo.ID + jogo.Logotipo));
+                        System.IO.File.Delete(Server.MapPath("~/ImagemCapas/" + jogo.ID + jogo.Fotografia));
                     }
-                    jogo.Logotipo = Path.GetExtension(uploadFotografia.FileName);
+                    jogo.Fotografia = Path.GetExtension(uploadFotografia.FileName);
 
-                    uploadFotografia.SaveAs(Path.Combine(Server.MapPath("~/ImagemCapas/" + jogo.ID + jogo.Logotipo)));
+                    uploadFotografia.SaveAs(Path.Combine(Server.MapPath("~/ImagemCapas/" + jogo.ID + jogo.Fotografia)));
                 }
 
                 db.SaveChanges();

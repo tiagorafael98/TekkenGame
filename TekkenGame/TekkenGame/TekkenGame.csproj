@@ -208,6 +208,17 @@
     <Content Include="ImagemCapas\Tekken7.jpg" />
     <Content Include="ImagemCapas\TekkenTagTournament.jpg" />
     <Content Include="ImagemCapas\TekkenTagTournament2.jpg" />
+    <Content Include="ImagemLogo\Tekken2Logo.jpg" />
+    <Content Include="ImagemLogo\Tekken3Logo.jpg" />
+    <Content Include="ImagemLogo\Tekken4Logo.jpg" />
+    <Content Include="ImagemLogo\Tekken5DarkResurrectionLogo.jpg" />
+    <Content Include="ImagemLogo\Tekken5Logo.jpg" />
+    <Content Include="ImagemLogo\Tekken6BloodlineRebellionLogo.jpg" />
+    <Content Include="ImagemLogo\Tekken6Logo.jpg" />
+    <Content Include="ImagemLogo\Tekken7Logo.jpg" />
+    <Content Include="ImagemLogo\TekkenLogo.jpg" />
+    <Content Include="ImagemLogo\TekkenTagTournament2Logo.jpg" />
+    <Content Include="ImagemLogo\TekkenTagTournamentLogo.jpg" />
     <Content Include="ImagemPers\Akuma.jpg" />
     <Content Include="ImagemPers\Alex.jpg" />
     <Content Include="ImagemPers\Alisa.jpg" />

@@ -50,6 +50,21 @@
                 @Html.DisplayFor(model => model.Biografia)
             </dd>
 
+            <dt>Personagens</dt>
+            <dd>
+                @if (Model.ListaDeJogos.Count() > 0)
+                {
+                    foreach (var jogo in Model.ListaDeJogos)
+                    {
+                        <td>
+                            <a href="~/Jogos/Details/@jogo.ID">
+                                <img src="~/ImagemLogo/@jogo.Logotipo" width="180" height="150" />
+                            </a>
+                        </td>
+                        @*<span>@jogo.Titulo</span><br /><br />*@
+                    }
+                }
+            </dd>
         </dl>
     </div>
 <p>

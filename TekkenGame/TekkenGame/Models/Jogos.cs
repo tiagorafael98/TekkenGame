@@ -20,6 +20,8 @@ namespace TekkenGame.Models
 
         public string Logotipo { get; set; }
 
+        public string Fotografia { get; set; }
+
         public string Resumo { get; set; }
 
         public virtual ICollection<Comentarios> ListaDeComentarios { get; set; }
