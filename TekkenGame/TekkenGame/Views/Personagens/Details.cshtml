@@ -4,70 +4,73 @@
     ViewBag.Title = "Detalhes da personagem";
 }
 
-    <h2>Detalhes da personagem</h2>
+<h2>Detalhes da personagem</h2>
 
+<div>
+    @*<h4>Personagens</h4>*@
+    <hr />
     <div>
-        @*<h4>Personagens</h4>*@
-        <hr />
-        <div>
-            <td>
-                <a href="~/ImagemPers/@Model.Fotografia" target="_blank">
-                    <img src="~/ImagemPers/@Model.Fotografia" width="400" height="457" />
-                </a>
-            </td>
-        </div>
-       
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Nome)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Nome)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Origem)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Origem)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.TipoLuta)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.TipoLuta)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Biografia)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Biografia)
-            </dd>
-
-            <dt>Personagens</dt>
-            <dd>
-                @if (Model.ListaDeJogos.Count() > 0)
-                {
-                    foreach (var jogo in Model.ListaDeJogos)
-                    {
-                        <td>
-                            <a href="~/Jogos/Details/@jogo.ID">
-                                <img src="~/ImagemLogo/@jogo.Logotipo" width="180" height="150" />
-                            </a>
-                        </td>
-                        @*<span>@jogo.Titulo</span><br /><br />*@
-                    }
-                }
-            </dd>
-        </dl>
+        <td>
+            <a href="~/ImagemPers/@Model.Fotografia" target="_blank">
+                <img src="~/ImagemPers/@Model.Fotografia" width="400" height="457" />
+            </a>
+        </td>
     </div>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Origem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Origem)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoLuta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoLuta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Biografia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Biografia)
+        </dd>
+
+        <dt>Personagens</dt>
+        <dd>
+            @if (Model.ListaDeJogos.Count() > 0)
+            {
+                foreach (var jogo in Model.ListaDeJogos)
+                {
+                    <td>
+                        <a href="~/Jogos/Details/@jogo.ID">
+                            <img src="~/ImagemLogo/@jogo.Logotipo" width="180" height="150" />
+                        </a>
+                    </td>
+                    @*<span>@jogo.Titulo</span><br /><br />*@
+                }
+            }
+        </dd>
+    </dl>
+</div>
 <p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.ID }) |
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Editar", "Edit", new { id = Model.ID })
+            }
     @Html.ActionLink("Regressar à lista de personagens", "Index")
 </p>

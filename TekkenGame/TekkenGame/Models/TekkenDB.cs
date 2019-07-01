@@ -9,6 +9,11 @@ namespace TekkenGame.Models
 {
     public class TekkenDB : DbContext
     {
+        public System.Data.Entity.DbSet<TekkenGame.Models.Comentarios> Comentarios { get; set; }
+
+        public System.Data.Entity.DbSet<TekkenGame.Models.Jogos> Jogos { get; set; }
+
+        public System.Data.Entity.DbSet<TekkenGame.Models.Utilizadores> Utilizadores { get; set; }
         //public TekkenDB() : base("TekkenDBConnectionString") { }
 
         // vamos colocar, aqui, as instruções relativas às tabelas do 'negócio'
