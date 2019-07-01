@@ -4,57 +4,94 @@
     ViewBag.Title = "Detalhes do jogo";
 }
 
-<h2>Detalhes do jogo</h2>
+<style>
+    body {
+        background-image: url(../../Fundos/Fundo3.jpg);
+    }
+
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        font-family: 'Lucida Console';
+        color: black;
+        background-color: white;
+        border: blue;
+        border-radius: 12px;
+        border: 2px solid #191970;
+    }
+
+        .button:hover {
+            background-color: #D3D3D3
+        }
+
+        .button:active {
+            background-color: #A9A9A9;
+            transform: translateY(2px);
+        }
+</style>
 
 <div>
-    @* <h4>Jogos</h4>*@
     <hr />
-    <div>
-        <td>
+    <div style="margin-top: 60px; display: -webkit-flex;">
+        @* imagem do jogo *@
+        <div style="border:solid; border-color:black;">
             <a href="~/ImagemCapas/@Model.Fotografia" target="_blank">
-                <img src="~/ImagemCapas/@Model.Fotografia" width="400" height="457" />
+                <img src="~/ImagemCapas/@Model.Fotografia" width="400" height="487" />
             </a>
-        </td>
-    </div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Titulo)
-        </dt>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Titulo)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Resumo)
-        </dt>
+        <div style="height:400px">
+            @* nome do jogo *@
+            <div style="color: red; font-family: 'Lucida Console'; text-align: left; font-size:47px; font-weight: bold; margin-top: -57px; margin-left: 20px; width: 100%;">
+                @Html.DisplayFor(model => model.Titulo)
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Resumo)
-        </dd>
+            @* enredo do jogo *@
+            <div style="font-family:'Lucida Console'; font-size:16.5px; color:white; text-align:justify; margin-left:20px;">
+                @Html.DisplayFor(model => model.Resumo)
+            </div>
 
-        <dt>Personagens</dt>
-        <dd>
-            @if (Model.ListaDePersonagens.Count() > 0)
-            {
-                foreach (var personagem in Model.ListaDePersonagens)
+            @* plataformas do jogo *@
+            <div style="font-family:'Lucida Console';font-size: 25px; color: red; font-weight: bold;padding-top: 16px; margin-left:20px;">Plataformas</div>
+            <div style="font-family:'Lucida Console'; font-size: 18px; color: black;text-align:justify; padding-top:2px; margin-left:20px;">
+                @if (Model.ListaDePlataformas.Count() > 0)
                 {
-                    <td>
-                        <a href="~/Personagens/Details/@personagem.ID">
-                            <img src="~/ImagemPers/@personagem.Fotografia" width="150" height="160" />
+                    foreach (var plataforma in Model.ListaDePlataformas)
+                    {
+                        <a href="~/ImagemPlat/@Model.Logotipo" target="_blank">
+                            <img src="~/ImagemPlat/@plataforma.Logotipo" width="180" height="150" />
                         </a>
-                    </td>
-                    <span>@personagem.Nome</span><br /><br />
+                    }
                 }
-            }
-        </dd>
-
-    </dl>
+            </div>
+        </div>
+    </div>
 </div>
+
+@* personagens do jogo *@
+<div style="font-family:Arial;font-size: 30px; color: red; font-weight: bold;padding-top: 65px; margin-left:6px;">Personagens</div>
+<div style=" display:flex; flex-wrap:wrap; flex-direction:row; justify-content:space-around; align-content:center; margin-top: -4px;">
+    @if (Model.ListaDePersonagens.Count() > 0)
+    {
+        foreach (var personagem in Model.ListaDePersonagens)
+        {
+            <div style="padding-top: 15px">
+                <a href="~/Personagens/Details/@personagem.ID">
+                    <img src="~/ImagemPers/@personagem.Fotografia" width="150" height="160" />
+                </a>
+            </div>
+        }
+    }
+</div>
+
 <p>
     @if (User.IsInRole("Admin"))
     {
         @Html.ActionLink("Editar", "Edit", new { id = Model.ID })
-}
+    }
     @Html.ActionLink("Voltar à lista de jogos", "Index")
 </p>

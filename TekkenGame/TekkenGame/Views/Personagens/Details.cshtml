@@ -10,11 +10,11 @@
     @*<h4>Personagens</h4>*@
     <hr />
     <div>
-        <td>
+      
             <a href="~/ImagemPers/@Model.Fotografia" target="_blank">
                 <img src="~/ImagemPers/@Model.Fotografia" width="400" height="457" />
             </a>
-        </td>
+       
     </div>
 
     <dl class="dl-horizontal">
@@ -56,11 +56,11 @@
             {
                 foreach (var jogo in Model.ListaDeJogos)
                 {
-                    <td>
+                    
                         <a href="~/Jogos/Details/@jogo.ID">
                             <img src="~/ImagemLogo/@jogo.Logotipo" width="180" height="150" />
                         </a>
-                    </td>
+                  
                     @*<span>@jogo.Titulo</span><br /><br />*@
                 }
             }

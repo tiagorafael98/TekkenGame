@@ -11,6 +11,8 @@ namespace TekkenGame.Models
         public Jogos()
         {
             ListaDeComentarios = new HashSet<Comentarios>();
+            ListaDePersonagens = new HashSet<Personagens>();
+            ListaDePlataformas = new HashSet<Plataformas>();
         }
 
         [Key]
@@ -26,5 +28,6 @@ namespace TekkenGame.Models
 
         public virtual ICollection<Comentarios> ListaDeComentarios { get; set; }
         public virtual ICollection<Personagens> ListaDePersonagens { get; set; }
+        public virtual ICollection<Plataformas> ListaDePlataformas { get; set; }
     }
 }

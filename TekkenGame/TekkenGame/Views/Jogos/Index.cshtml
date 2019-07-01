@@ -4,45 +4,44 @@
     ViewBag.Title = "Jogos";
 }
 
-<h2>Jogos</h2>
+<style>
+        body {
+            background-image: url(../../Fundos/Fundo3.jpg);
+        }
+</style>
+
+<div style="font-family: 'Lucida Console'; text-align: left;color: red; font-size: 40px;font-weight: bold; margin-left:280px; margin-top:40px;">
+    Conheça todos os jogos!
+</div>
 
 <p>
-    @if (User.IsInRole("Admin")) {
+    @if (User.IsInRole("Admin"))
+    {
         @Html.ActionLink("Adicionar novo jogo", "Create")
-     }
+    }
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Titulo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fotografia)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Titulo)
-        </td>
-        <td>
-            @*@Html.DisplayFor(modelItem => item.Logotipo)*@
-
+    
+<div style=" display:flex; flex-wrap:wrap; flex-direction:row; justify-content:space-around; align-content:center; margin-top:30px;">
+    @foreach (var item in Model)
+    {
+        <div style="padding-top: 15px">
             <a href="~/Jogos/Details/@item.ID">
-                <img src="~/ImagemCapas/@item.Fotografia" width="150" height="180" />
+                <img src="~/ImagemCapas/@item.Fotografia" width="300" height="360" />
             </a>
-        </td>
-        <td>
-            @if (User.IsInRole("Admin"))
-            {
-                @Html.ActionLink("Editar", "Edit", new { id = item.ID })
-                <span>|</span>
-                @Html.ActionLink("Apagar jogo", "Delete", new { id = item.ID })
-            }
-        </td>
-    </tr>
-}
+        </div>
+    }
+    </div>
 
-</table>
+<p>
+    @Html.ActionLink("Adicionar novo jogo", "Create")
+</p>
+
+        @* Usar em detalhes
+            <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        @Html.ActionLink("Editar", "Edit", new { id = item.ID })
+                        <span>|</span>
+                        @Html.ActionLink("Apagar jogo", "Delete", new { id = item.ID })
+                    }
+           </td>*@

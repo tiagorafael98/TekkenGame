@@ -197,6 +197,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Fundos\Fundo1.jpg" />
+    <Content Include="Fundos\Fundo2.jpg" />
+    <Content Include="Fundos\Fundo3.jpg" />
+    <Content Include="Fundos\Fundo4.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="ImagemCapas\Tekken.jpg" />
@@ -299,11 +303,13 @@
     <Content Include="ImagemPers\Xiaoyu.jpg" />
     <Content Include="ImagemPers\Yoshimitsu.jpg" />
     <Content Include="ImagemPers\Zafina.jpg" />
+    <Content Include="ImagemPlat\Arcade.jpg" />
     <Content Include="ImagemPlat\MicrosoftWindows.jpg" />
     <Content Include="ImagemPlat\PlayStation.jpg" />
     <Content Include="ImagemPlat\PlayStation2.jpg" />
     <Content Include="ImagemPlat\PlayStation3.jpg" />
     <Content Include="ImagemPlat\PlayStation4.jpg" />
+    <Content Include="ImagemPlat\PlayStationPortable.jpg" />
     <Content Include="ImagemPlat\WiiU.jpg" />
     <Content Include="ImagemPlat\Xbox360.jpg" />
     <Content Include="ImagemPlat\XboxOne.jpg" />
