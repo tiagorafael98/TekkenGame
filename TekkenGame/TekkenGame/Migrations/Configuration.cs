@@ -7,14 +7,14 @@
     using System.Linq;
     using TekkenGame.Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<TekkenGame.Models.TekkenDB>
+    internal sealed class Configuration : DbMigrationsConfiguration<TekkenGame.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(TekkenGame.Models.TekkenDB context)
+        protected override void Seed(TekkenGame.Models.ApplicationDbContext context)
         {
             var utilizadores = new List<Utilizadores> {
                 new Utilizadores {ID=1, UserName ="tiago-rafael_98@hotmail.com", NomeCompleto = "Rafael André Campos Gonçalves", DataNascimento = new DateTime(1996,5,3),  Email = "tiago-rafael_98@hotmail.com"},

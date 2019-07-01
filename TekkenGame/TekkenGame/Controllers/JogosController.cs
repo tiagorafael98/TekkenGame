@@ -13,7 +13,7 @@ namespace TekkenGame.Controllers
 {
     public class JogosController : Controller
     {
-        private TekkenDB db = new TekkenDB();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Jogos
         public ActionResult Index()
@@ -39,6 +39,7 @@ namespace TekkenGame.Controllers
             return View(jogos);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Jogos/Create
         public ActionResult Create()
         {
@@ -107,6 +108,7 @@ namespace TekkenGame.Controllers
             return View(jogo);
         }
 
+        [Authorize( Roles = "Admin")]
         // GET: Jogos/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -153,6 +155,7 @@ namespace TekkenGame.Controllers
             return View(jogo);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Jogos/Delete/5
         public ActionResult Delete(int? id)
         {

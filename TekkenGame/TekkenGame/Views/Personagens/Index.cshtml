@@ -7,7 +7,11 @@
 <h2>Conheça todas as personagens</h2>
 
 <p>
-    @Html.ActionLink("Criar nova personagem", "Create")
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Criar nova personagem", "Create")
+    }
+
 </p>
 <table class="table">
     <tr>
@@ -33,9 +37,12 @@
         </td>
 
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Detalhes", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Apagar", "Delete", new { id=item.ID })
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ActionLink("Editar", "Edit", new { id = item.ID })
+                <span>|</span>
+                @Html.ActionLink("Apagar jogo", "Delete", new { id = item.ID })
+            }
         </td>
     </tr>
 }

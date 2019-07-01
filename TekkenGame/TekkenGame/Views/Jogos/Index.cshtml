@@ -7,7 +7,9 @@
 <h2>Jogos</h2>
 
 <p>
-    @Html.ActionLink("Adicionar novo jogo", "Create")
+    @if (User.IsInRole("Admin")) {
+        @Html.ActionLink("Adicionar novo jogo", "Create")
+     }
 </p>
 <table class="table">
     <tr>
@@ -28,14 +30,17 @@
         <td>
             @*@Html.DisplayFor(modelItem => item.Logotipo)*@
 
-            <a href="~/Jogos/Details/@item.ID" target="_blank">
+            <a href="~/Jogos/Details/@item.ID">
                 <img src="~/ImagemCapas/@item.Fotografia" width="150" height="180" />
             </a>
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Detalhes", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Apagar", "Delete", new { id=item.ID })
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ActionLink("Editar", "Edit", new { id = item.ID })
+                <span>|</span>
+                @Html.ActionLink("Apagar jogo", "Delete", new { id = item.ID })
+            }
         </td>
     </tr>
 }

@@ -13,7 +13,7 @@ namespace TekkenGame.Controllers
 {
     public class PersonagensController : Controller
     {
-        private TekkenDB db = new TekkenDB();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Personagens
         public ActionResult Index()
@@ -52,6 +52,7 @@ namespace TekkenGame.Controllers
             return View(personagens);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Personagens/Create
         public ActionResult Create()
         {
@@ -127,6 +128,7 @@ namespace TekkenGame.Controllers
             return View(personagem);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Personagens/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -190,6 +192,7 @@ namespace TekkenGame.Controllers
             return View(personagem);
         }
 
+        [Authorize(Roles = "Admin")]
         /// <summary>
         /// apresenta na View os dados de uma personagem,
         /// com vista à eventual eliminação
