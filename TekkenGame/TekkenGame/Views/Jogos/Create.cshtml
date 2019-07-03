@@ -7,7 +7,7 @@
 <h2>Adicionar novo Jogo</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create","Jogos", FormMethod.Post,new {enctype="multipart/form-data" })) 
 {
     @Html.AntiForgeryToken()
     

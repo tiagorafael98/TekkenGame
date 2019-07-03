@@ -13,13 +13,6 @@
 <div style="font-family: 'Lucida Console'; text-align: left;color: red; font-size: 40px;font-weight: bold; margin-left:280px; margin-top:40px;">
     Conheça todos os jogos!
 </div>
-
-<p>
-    @if (User.IsInRole("Admin"))
-    {
-        @Html.ActionLink("Adicionar novo jogo", "Create")
-    }
-</p>
     
 <div style=" display:flex; flex-wrap:wrap; flex-direction:row; justify-content:space-around; align-content:center; margin-top:30px;">
     @foreach (var item in Model)
@@ -33,15 +26,8 @@
     </div>
 
 <p>
-    @Html.ActionLink("Adicionar novo jogo", "Create")
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Adicionar novo jogo", "Create")
+    }
 </p>
-
-        @* Usar em detalhes
-            <td>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        @Html.ActionLink("Editar", "Edit", new { id = item.ID })
-                        <span>|</span>
-                        @Html.ActionLink("Apagar jogo", "Delete", new { id = item.ID })
-                    }
-           </td>*@

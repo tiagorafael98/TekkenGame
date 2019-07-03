@@ -7,7 +7,7 @@
 <h2>Editar Jogo</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit","Jogos",FormMethod.Post,new {enctype="multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     

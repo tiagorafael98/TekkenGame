@@ -4,47 +4,32 @@
     ViewBag.Title = "Personagens";
 }
 
-<h2>Conheça todas as personagens</h2>
-
-<p>
-    @if (User.IsInRole("Admin"))
-    {
-        @Html.ActionLink("Criar nova personagem", "Create")
+<style>
+    body {
+        background-image: url(../../Fundos/Fundo3.jpg);
     }
+</style>
 
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fotografia)
-        </th>
-        <th></th>
-    </tr>
+<div style="font-family: 'Lucida Console'; text-align: left;color: red; font-size: 40px;font-weight: bold; margin-left:220px; margin-top:40px;">
+    Conheça todas as personagens!
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            @*@Html.DisplayFor(modelItem => item.Fotografia)*@
+<div style=" display:flex; flex-wrap:wrap; flex-direction:row; justify-content:space-around; align-content:center; margin-top:30px;">
+    @foreach (var item in Model)
+    {
+        <div style="padding-top: 15px">
             <a href="~/Personagens/Details/@item.ID">
-                <img src="~/ImagemPers/@item.Fotografia" width="150" height="160" />
+                <img src="~/ImagemPers/@item.Fotografia" width="200" height="210" />
             </a>
-        </td>
+        </div>
+     }
+</div>
+ 
 
-        <td>
-            @if (User.IsInRole("Admin"))
-            {
-                @Html.ActionLink("Editar", "Edit", new { id = item.ID })
-                <span>|</span>
-                @Html.ActionLink("Apagar jogo", "Delete", new { id = item.ID })
-            }
-        </td>
-    </tr>
+@if (User.IsInRole("Admin"))
+{
+    <div style="padding-top: 50px; margin-top: 200px; margin-left: 700px;">
+        @Html.ActionLink("Adicionar nova personagem", "Create")
+    </div>
 }
 
-</table>

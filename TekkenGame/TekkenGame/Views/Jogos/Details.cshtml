@@ -46,7 +46,7 @@
 
         <div style="height:400px">
             @* nome do jogo *@
-            <div style="color: red; font-family: 'Lucida Console'; text-align: left; font-size:47px; font-weight: bold; margin-top: -57px; margin-left: 20px; width: 100%;">
+            <div style="color: red; font-family: 'Lucida Console'; text-align: left; font-size:47px; font-weight: bold; margin-top: -10px; margin-left: 20px; width: 100%;">
                 @Html.DisplayFor(model => model.Titulo)
             </div>
 
@@ -63,7 +63,7 @@
                     foreach (var plataforma in Model.ListaDePlataformas)
                     {
                         <a href="~/ImagemPlat/@Model.Logotipo" target="_blank">
-                            <img src="~/ImagemPlat/@plataforma.Logotipo" width="180" height="150" />
+                            <img src="~/ImagemPlat/@plataforma.Logotipo" width="130" height="100" />
                         </a>
                     }
                 }
@@ -73,7 +73,7 @@
 </div>
 
 @* personagens do jogo *@
-<div style="font-family:Arial;font-size: 30px; color: red; font-weight: bold;padding-top: 65px; margin-left:6px;">Personagens</div>
+<div style="font-family:Arial;font-size: 30px; color: red; font-weight: bold;padding-top: 56px; margin-left:6px;">Personagens</div>
 <div style=" display:flex; flex-wrap:wrap; flex-direction:row; justify-content:space-around; align-content:center; margin-top: -4px;">
     @if (Model.ListaDePersonagens.Count() > 0)
     {
@@ -88,10 +88,16 @@
     }
 </div>
 
-<p>
-    @if (User.IsInRole("Admin"))
-    {
-        @Html.ActionLink("Editar", "Edit", new { id = Model.ID })
-    }
-    @Html.ActionLink("Voltar à lista de jogos", "Index")
-</p>
+@* botões de editar a personagem somente para o administrador *@
+@if (User.IsInRole("Admin"))
+{
+    <div class="btn-group" role="group" style="margin-bottom:9px; margin-top:20px; padding-left: 855px;">
+        <button type="button" class="button" onclick="location.href='@Url.Action("Edit","Jogos", new { id = Model.ID })'">Editar jogo</button>
+        <button type="button" class="button" onclick="location.href='@Url.Action("Delete","Jogos", new { id = Model.ID })'">Apagar jogo</button>
+    </div>
+}
+
+@* botão para voltar à lista de jogos *@
+<div class="btn-group" role="group" style="margin-bottom:9px; padding-top:10px; padding-left: 855px;">
+    <button type="button" class="button" onclick="location.href='@Url.Action("Index","Jogos",new { id = Model.ID })'">Voltar para a lista de Jogos</button>
+</div>

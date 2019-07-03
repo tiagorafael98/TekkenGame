@@ -4,73 +4,96 @@
     ViewBag.Title = "Detalhes da personagem";
 }
 
-<h2>Detalhes da personagem</h2>
+@* imagem de fundo *@
+<style>
+    body {
+        background-image: url(../../Fundos/Fundo3.jpg);
+    }
 
-<div>
-    @*<h4>Personagens</h4>*@
-    <hr />
-    <div>
-      
-            <a href="~/ImagemPers/@Model.Fotografia" target="_blank">
-                <img src="~/ImagemPers/@Model.Fotografia" width="400" height="457" />
-            </a>
-       
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        font-family: 'Lucida Console';
+        color: black;
+        background-color: white;
+        border: blue;
+        border-radius: 12px;
+        border: 2px solid #191970;
+    }
+
+        .button:hover {
+            background-color: #D3D3D3
+        }
+
+        .button:active {
+            background-color: #A9A9A9;
+            transform: translateY(2px);
+        }
+</style>
+
+
+<div style="margin-top: 40px; display: -webkit-flex; -webkit-align-items: center; display: flex;align-items: center;">
+    @* imagem da personagem *@
+    <div style="border:solid;border-color:black;">
+        <a href="~/ImagemPers/@Model.Fotografia" target="_blank">
+            <img src="~/ImagemPers/@Model.Fotografia" width="400" height="457" />
+        </a>
     </div>
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-
-        <dd>
+    <div style="height:400px">
+        @* nome da personagem *@
+        <div style="font-family: Arial; text-align: left;color: red; font-size: 50px;font-weight: bold;margin-top: -45px; margin-left: 18px;width: 100%;">
             @Html.DisplayFor(model => model.Nome)
-        </dd>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Origem)
-        </dt>
+        @* origem da personagem *@
+        <div style="font-family:Arial;font-size: 25px; color: red; font-weight: bold;padding-top: 20px; margin-left:20px;">Natural</div>
+        <div style="font-family:Arial; font-size: 18px; color: black;text-align:justify; padding-top:-300px; margin-left:20px; color:white;">
+            <b>@Html.DisplayFor(model => model.Origem)</b>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Origem)
-        </dd>
+        @*Tipo de Luta da Personagem*@
+        <div style="font-family:Arial;font-size: 25px; color: red; font-weight: bold;padding-top: 20px; margin-left:20px;">Tipo de luta</div>
+        <div style="font-family:Arial; font-size: 18px; color: black;text-align:justify; padding-top:-300px; margin-left:20px; color:white;">
+            <b>@Html.DisplayFor(model => model.TipoLuta)</b>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TipoLuta)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TipoLuta)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Biografia)
-        </dt>
-
-        <dd>
+        @*Biografia da Personagem*@
+        <div style="font-family:Arial;font-size: 25px; color: red; font-weight: bold;padding-top: 20px; margin-left:20px;">Biografia</div>
+        <div style="font-family:'Lucida Console'; font-size: 16.5px; color: black;text-align:justify; margin-left:20px; color:white">
             @Html.DisplayFor(model => model.Biografia)
-        </dd>
+        </div>
 
-        <dt>Personagens</dt>
-        <dd>
-            @if (Model.ListaDeJogos.Count() > 0)
-            {
-                foreach (var jogo in Model.ListaDeJogos)
-                {
-                    
-                        <a href="~/Jogos/Details/@jogo.ID">
-                            <img src="~/ImagemLogo/@jogo.Logotipo" width="180" height="150" />
-                        </a>
-                  
-                    @*<span>@jogo.Titulo</span><br /><br />*@
-                }
-            }
-        </dd>
-    </dl>
+
+    </div>
+
 </div>
-<p>
-    @if (User.IsInRole("Admin"))
+<div style="font-family:Arial;font-size: 25px; color: red; font-weight: bold; padding-top: 20px; margin-left:0px;">Jogos presentes</div>
+<span>
+    @if (Model.ListaDeJogos.Count() > 0)
     {
-        @Html.ActionLink("Editar", "Edit", new { id = Model.ID })
-            }
-    @Html.ActionLink("Regressar à lista de personagens", "Index")
-</p>
+        foreach (var jogo in Model.ListaDeJogos)
+        {
+            <a href="~/Jogos/Details/@jogo.ID">
+                <img src="~/ImagemLogo/@jogo.Logotipo" width="180" height="150" />
+            </a>
+        }
+    }
+</span>
+
+@* botões de editar a personagem somente para o administrador *@
+@if (User.IsInRole("Admin"))
+{
+    <div class="btn-group" role="group" style="margin-bottom:9px; padding-left: 758px;">
+        <button type="button" class="button" onclick="location.href='@Url.Action("Edit","Personagens", new { id = Model.ID })'">Editar Personagem</button>
+        <button type="button" class="button" onclick="location.href='@Url.Action("Delete","Personagens", new { id = Model.ID })'">Apagar Personagem</button>
+    </div>
+}
+
+@* botão para voltar à lista de jogos *@
+<div class="btn-group" role="group" style="margin-bottom:9px; padding-top:10px; padding-left: 805px;">
+    <button type="button" class="button" onclick="location.href='@Url.Action("Index","Personagens",new { id = Model.ID })'">Voltar para a lista de Personagens</button>
+</div>
