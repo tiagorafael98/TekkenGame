@@ -158,37 +158,58 @@ namespace TekkenGame.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Nome,Origem,TipoLuta,Fotografia,Biografia")] Personagens personagem, HttpPostedFileBase uploadFotografia)
         {
-            /// existe imagem?
-            ///    se não existe, nada se faz => manter a anterior
-            ///    se existe
-            ///          não é válida, nada se faz => manter a anterior
-            ///          se é válida
-            ///             - fazer como no create para guardar a nova imagem
-            ///             - guardar os dados da nova imagem na bd
-            ///             - guardar a nova imagem no disco rígido
-            ///             - apagar a imagem anterior do disco rígido
-            
+            string path = "";
+
+            if (uploadFotografia == null)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                db.Entry(personagem).State = EntityState.Modified;
+
+                string mimeType = uploadFotografia.ContentType;
+
+                if (mimeType == "image/jpeg" || mimeType == "image/png")
+                {
+                    // o ficheiro é do tipo correto
+                    /// 3º qual o nome que devo dar ao ficheiro?
+                    Guid g;
+                    g = Guid.NewGuid(); // obtem os dados para o nome do ficheiro
+                    
+                    // e qual a extensão do ficheiro?
+                    string extensao = Path.GetExtension(uploadFotografia.FileName).ToLower();
+                    
+                    // montar novo nome
+                    string nomeFicheiro = g.ToString() + extensao;
+                    
+                    // onde guardar o ficheiro?
+                    path = Path.Combine(Server.MapPath("~/ImagemPers/"), nomeFicheiro);
+                    
+                    /// 4º como o associar ao novo Jogo?
+                    personagem.Fotografia = nomeFicheiro;
+                }
+                else
+                {
+                    // o ficheiro fornecido nao é válido 
+                    // atributo por defeito ao jogo
+                    return RedirectToAction("Index");
+                    // jogo.Fotografia = "no-user.jpg";
+                }
+            }
 
             if (ModelState.IsValid)
             {
-                // neste caso, já existe uma Personagem e apenas quero EDITAR os seus dados
-                // db.Entry(personagem).State = EntityState.Modified;
 
-                // editar imagem
-                if (uploadFotografia != null)
-                {
-                    if (System.IO.File.Exists(Server.MapPath("~/ImagemPers/" + personagem.ID + personagem.Fotografia)))
-                    {
-                        System.IO.File.Delete(Server.MapPath("~/ImagemPers/" + personagem.ID + personagem.Fotografia));
-                    }
-                    personagem.Fotografia = Path.GetExtension(uploadFotografia.FileName);
+                uploadFotografia.SaveAs(path);
+                db.Entry(personagem).State = EntityState.Modified;
 
-                    uploadFotografia.SaveAs(Path.Combine(Server.MapPath("~/ImagemPers/" + personagem.ID + personagem.Fotografia)));
-                }
-                // efetuar o 'Commit'
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.Plataformas = db.Plataformas;
+                return View(personagem);
+
             }
+            ViewBag.Plataformas = db.Plataformas;
             return View(personagem);
         }
 
