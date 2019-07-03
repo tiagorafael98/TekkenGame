@@ -39,6 +39,11 @@ namespace TekkenGame
             user.Email = "admin@mail.pt";
             string userPWD = "123_Asd";
             var chkUser = userManager.Create(user, userPWD);
+            if (chkUser.Succeeded)
+            {
+                var result1 = userManager.AddToRole(user.Id, "Admin");
+            }
+
 
             if (!roleManager.RoleExists("Utilizador"))
             {
