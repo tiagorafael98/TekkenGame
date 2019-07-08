@@ -96,7 +96,7 @@ namespace TekkenGame.Controllers
             {
                 // add o novo Jogo à BD
                 db.Jogos.Add(jogo);
-                
+
                 // faz 'commit' às alterações.
                 db.SaveChanges();
 
@@ -108,7 +108,7 @@ namespace TekkenGame.Controllers
             return View(jogo);
         }
 
-        [Authorize( Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Jogos/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -133,12 +133,16 @@ namespace TekkenGame.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Titulo,Logotipo,Resumo")] Jogos jogo, HttpPostedFileBase uploadFotografia)
+        public ActionResult Edit([Bind(Include = "ID,Titulo,Logotipo,Resumo,Fotografia")] Jogos jogo, HttpPostedFileBase uploadFotografia)
         {
             string path = "";
 
             if (uploadFotografia == null)
             {
+                db.Entry(jogo).State = EntityState.Modified;
+
+                db.SaveChanges();
+                ViewBag.Plataformas = db.Plataformas;
                 return RedirectToAction("Index");
             }
             else
@@ -146,6 +150,8 @@ namespace TekkenGame.Controllers
                 db.Entry(jogo).State = EntityState.Modified;
 
                 string mimeType = uploadFotografia.ContentType;
+
+
 
                 if (mimeType == "image/jpeg" || mimeType == "image/png")
                 {
@@ -165,6 +171,8 @@ namespace TekkenGame.Controllers
 
                     /// 4º como o associar ao novo Jogo?
                     jogo.Fotografia = nomeFicheiro;
+
+
                 }
                 else
                 {
@@ -173,20 +181,20 @@ namespace TekkenGame.Controllers
                     return RedirectToAction("Index");
                     // jogo.Fotografia = "no-user.jpg";
                 }
-            }
 
-            if (ModelState.IsValid)
-            {
+                if (ModelState.IsValid)
+                {
 
-                uploadFotografia.SaveAs(path);
-                db.Entry(jogo).State = EntityState.Modified;
+                    uploadFotografia.SaveAs(path);
+                    db.Entry(jogo).State = EntityState.Modified;
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                    ViewBag.Plataformas = db.Plataformas;
+                    return RedirectToAction("Index");
+
+                }
                 ViewBag.Plataformas = db.Plataformas;
-                return View(jogo);
-
             }
-            ViewBag.Plataformas = db.Plataformas;
             return View(jogo);
         }
 
@@ -218,6 +226,21 @@ namespace TekkenGame.Controllers
             Jogos jogo = db.Jogos.Find(id);
             try
             {
+                foreach (var child in jogo.ListaDePersonagens.ToList())
+                {
+                    jogo.ListaDePersonagens.Remove(child);
+                }
+
+                foreach (var child in jogo.ListaDeComentarios.ToList())
+                {
+                    jogo.ListaDeComentarios.Remove(child);
+                }
+
+                foreach (var child in jogo.ListaDePlataformas.ToList())
+                {
+                    jogo.ListaDePlataformas.Remove(child);
+                }
+
                 // remove o jogo da BD
                 db.Jogos.Remove(jogo);
 
@@ -236,7 +259,7 @@ namespace TekkenGame.Controllers
             // se cheguei aqui é porque houve um problema
             // devolvo os dados do Jogo à View
             return View(jogo);
-            
+
         }
 
         protected override void Dispose(bool disposing)

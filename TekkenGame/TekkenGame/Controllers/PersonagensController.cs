@@ -91,7 +91,7 @@ namespace TekkenGame.Controllers
             string path = "";
 
             // validar se a imagem foi fornecida
-            if (uploadFotografia != null )
+            if (uploadFotografia != null)
             {
                 // o ficheiro foi fornecido
                 // criar o caminho completo até ao sítio onde o ficheiro será guardado
@@ -105,7 +105,7 @@ namespace TekkenGame.Controllers
                 // não foi fornecido um ficheiro
                 // gerar uma mensagem de erro
                 ModelState.AddModelError("", "Não foi fornecida uma imagem.");
-                
+
                 // devolver o controlo à View
                 return View(personagem);
             }
@@ -124,7 +124,7 @@ namespace TekkenGame.Controllers
                 // retorna ao index
                 return RedirectToAction("Index");
             }
-            
+
             return View(personagem);
         }
 
@@ -162,6 +162,10 @@ namespace TekkenGame.Controllers
 
             if (uploadFotografia == null)
             {
+                db.Entry(personagem).State = EntityState.Modified;
+
+                db.SaveChanges();
+                ViewBag.Jogos = db.Jogos;
                 return RedirectToAction("Index");
             }
             else
@@ -176,16 +180,16 @@ namespace TekkenGame.Controllers
                     /// 3º qual o nome que devo dar ao ficheiro?
                     Guid g;
                     g = Guid.NewGuid(); // obtem os dados para o nome do ficheiro
-                    
+
                     // e qual a extensão do ficheiro?
                     string extensao = Path.GetExtension(uploadFotografia.FileName).ToLower();
-                    
+
                     // montar novo nome
                     string nomeFicheiro = g.ToString() + extensao;
-                    
+
                     // onde guardar o ficheiro?
                     path = Path.Combine(Server.MapPath("~/ImagemPers/"), nomeFicheiro);
-                    
+
                     /// 4º como o associar ao novo Jogo?
                     personagem.Fotografia = nomeFicheiro;
                 }
@@ -196,20 +200,21 @@ namespace TekkenGame.Controllers
                     return RedirectToAction("Index");
                     // jogo.Fotografia = "no-user.jpg";
                 }
+
+                if (ModelState.IsValid)
+                {
+
+                    uploadFotografia.SaveAs(path);
+                    db.Entry(personagem).State = EntityState.Modified;
+
+                    db.SaveChanges();
+                    ViewBag.Jogos = db.Jogos;
+                    return RedirectToAction("Index");
+
+                }
+
+                ViewBag.Jogos = db.Jogos;
             }
-
-            if (ModelState.IsValid)
-            {
-
-                uploadFotografia.SaveAs(path);
-                db.Entry(personagem).State = EntityState.Modified;
-
-                db.SaveChanges();
-                ViewBag.Plataformas = db.Plataformas;
-                return View(personagem);
-
-            }
-            ViewBag.Plataformas = db.Plataformas;
             return View(personagem);
         }
 
@@ -248,6 +253,16 @@ namespace TekkenGame.Controllers
             Personagens personagem = db.Personagens.Find(id);
             try
             {
+                foreach (var child in personagem.ListaDeJogos.ToList())
+                {
+                    personagem.ListaDeJogos.Remove(child);
+                }
+
+                foreach (var child in personagem.ListaDeComentarios.ToList())
+                {
+                    personagem.ListaDeComentarios.Remove(child);
+                }
+
                 // remove a personagem da BD
                 db.Personagens.Remove(personagem);
 
@@ -256,7 +271,7 @@ namespace TekkenGame.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ModelState.AddModelError("", string.Format("Não é possível apagar a personagem {1}",
                                                            id, personagem.Nome)

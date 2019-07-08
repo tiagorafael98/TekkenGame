@@ -50,18 +50,43 @@ namespace TekkenGame.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Texto,DataComentario,JogoFK,UtilizadoresFK")] Comentarios comentarios)
+        public ActionResult Create([Bind(Include = "Texto,JogoFK")] Comentarios comentarios, string Username)
         {
+
+            int idNovoComentario = 0;
+            try
+            {
+                // vai à BD, depois à tabela dos Jogos e calcula o ID máximo
+                idNovoComentario = db.Comentarios.Max(a => a.ID) + 1;
+            }
+            catch (Exception)
+            {
+                idNovoComentario = 1;
+            }
+
+            // guardar o ID do novo Jogo
+            comentarios.ID = idNovoComentario;
+
+            comentarios.DataComentario = DateTime.Now;
+
+            comentarios.UtilizadoresFK = db.Utilizadores.Where(a => a.UserName == Username).Single().ID;
+
             if (ModelState.IsValid)
             {
                 db.Comentarios.Add(comentarios);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Jogos", new { ID = comentarios.JogoFK });
             }
+
+            var errors = ModelState
+    .Where(x => x.Value.Errors.Count > 0)
+    .Select(x => new { x.Key, x.Value.Errors })
+    .ToArray();
 
             ViewBag.JogoFK = new SelectList(db.Jogos, "ID", "Titulo", comentarios.JogoFK);
             ViewBag.UtilizadoresFK = new SelectList(db.Utilizadores, "ID", "UserName", comentarios.UtilizadoresFK);
-            return View(comentarios);
+            //return RedirectToAction("Details", "Jogos", new { ID = comentarios.JogoFK });
+            return RedirectToAction("Index", "Jogos");
         }
 
         [Authorize(Roles = "Admin, Utilizador")]
@@ -129,6 +154,7 @@ namespace TekkenGame.Controllers
             Comentarios comentarios = db.Comentarios.Find(id);
             try
             {
+
                 // remove o comentário da memória
                 db.Comentarios.Remove(comentarios);
                 // commit na BD
