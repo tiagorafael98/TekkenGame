@@ -85,14 +85,14 @@
 @if (User.IsInRole("Admin"))
 {
 <div class="btn-group" role="group" style="margin-bottom:9px; margin-top:20px; padding-left: 855px;">
-    <button type="button" class="button" onclick="location.href='@Url.Action(" Edit","Jogos", new { id=Model.ID })'">Editar jogo</button>
-    <button type="button" class="button" onclick="location.href='@Url.Action(" Delete","Jogos", new { id=Model.ID })'">Apagar jogo</button>
+    <button type="button" class="button" onclick="location.href='@Url.Action("Edit","Jogos", new { id=Model.ID })'">Editar jogo</button>
+    <button type="button" class="button" onclick="location.href='@Url.Action("Delete","Jogos", new { id=Model.ID })'">Apagar jogo</button>
 </div>
 }
 
 @* botão para voltar à lista de jogos *@
 <div class="btn-group" role="group" style="margin-bottom:9px; padding-top:10px; padding-left: 855px;">
-    <button type="button" class="button" onclick="location.href='@Url.Action(" Index","Jogos",new { id=Model.ID })'">Voltar para a lista de Jogos</button>
+    <button type="button" class="button" onclick="location.href='@Url.Action("Index","Jogos",new { id=Model.ID })'">Voltar para a lista de Jogos</button>
 </div>
 
 <div>

@@ -4,64 +4,70 @@
     ViewBag.Title = "Apagar personagem";
 }
 
-<h2>Apagar personagem</h2>
+<
+<style>
+    body {
+        background-image: url(../../Fundos/Fundo3.jpg);
+    }
 
-<h3>Tem a certeza que pretende apagar esta personagem da lista?</h3>
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        font-family: 'Lucida Console';
+        color: black;
+        background-color: white;
+        border: blue;
+        border-radius: 12px;
+        border: 2px solid #191970;
+    }
+
+        .button:hover {
+            background-color: #D3D3D3
+        }
+
+        .button:active {
+            background-color: #A9A9A9;
+            transform: translateY(2px);
+        }
+</style>
+
+<div style="font-family: 'Lucida Console'; text-align: left;color: white; font-size: 32px;font-weight: bold;margin-top: 50px;">Tem a certeza que pretende apagar esta personagem da lista?</div>
+
+<div class="alert alert-warning" style="font-family:'Lucida Console'">
+    <strong>Atenção!</strong> Ao apagar esta personagem, todos os seus dados serão perdidos.
+</div>
 <div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
+    @* HTML Helper para apresentar as mensagens de erro *@
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Origem)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Origem)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TipoLuta)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TipoLuta)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Fotografia)
-        </dt>
-
-        <dd>
-            @*@Html.DisplayFor(model => model.Fotografia)*@
-            <a href="~/ImagemPers/@Model.Fotografia" target="_blank">
-                <img src="~/ImagemPers/@Model.Fotografia" width="150" height="160" />
+    <div class="dl-horizontal">
+        @*Imagem da Personagem a apagar*@
+        <div>
+            <a href="/Personagens/Details/@Model.ID">
+                <img src="~/ImagemPers/@Model.Fotografia" width="250" height="260" />
             </a>
-        </dd>
+        </div>
+        @*Nome da Personagem a apagar*@
+        <div style="color:red; margin-left:265px; margin-top:-260px; font-family:'Lucida Console'; font-size:35px;">
+            @Html.DisplayFor(model => model.Nome)
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Biografia)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Biografia)
-        </dd>
-
-    </dl>
+    </div>
 
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Regressar à lista de personagens", "Index")
+            <input type="submit" value="Apagar" class="button" style="margin-left:260px; margin-top:129px; font-size:25px;" /> |
+            @*Botão para voltar à lista de Jogos*@
+            <div class="btn-group" role="group" style="margin-bottom:9px; padding-top:13px; padding-left: 0px;">
+                <button type="button" class="button" onclick="location.href='@Url.Action("Index","Personagens",new { id = Model.ID })'">Voltar para a lista de Personagens</button>
+            </div>
         </div>
     }
 </div>

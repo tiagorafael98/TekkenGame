@@ -16,15 +16,15 @@ namespace TekkenGame.Models
 
         [Key]
         public int ID { get; set; }
-
+        [Required]
         public string Nome { get; set; }
-
+        [Required]
         public string Origem { get; set; }
-
+        [Required]
         public string TipoLuta { get; set; }
-
+        [Required]
         public string Fotografia { get; set; }
-
+        
         public string Biografia { get; set; }
 
         public virtual ICollection<Comentarios> ListaDeComentarios { get; set; }
