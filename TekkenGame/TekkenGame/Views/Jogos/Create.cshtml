@@ -4,37 +4,64 @@
     ViewBag.Title = "Adicionar novo Jogo";
 }
 
-<h2>Adicionar novo Jogo</h2>
+<style>
+    body {
+        background-image: url(../../Fundos/Fundo3.jpg);
+    }
 
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        font-family: 'Lucida Console';
+        color: black;
+        background-color: white;
+        border: blue;
+        border-radius: 12px;
+        border: 2px solid #191970;
+    }
 
-@using (Html.BeginForm("Create","Jogos", FormMethod.Post,new {enctype="multipart/form-data" })) 
+        .button:hover {
+            background-color: #D3D3D3
+        }
+
+        .button:active {
+            background-color: #A9A9A9;
+            transform: translateY(2px);
+        }
+</style>
+
+<div style="color:red; font-family:'Lucida Console'; font-size:48px; margin-top:30px;">Adicionar novo jogo</div>
+
+@using (Html.BeginForm("Create", "Jogos", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Jogo</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
+        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
             @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10" style="margin-top:5px;">
                 @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
             @Html.LabelFor(model => model.Fotografia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10" style="margin-top:5px;">
                 <input type="file" name="uploadFotografia"
                        syle="color:blue" accept=".jpg" />
                 @Html.ValidationMessageFor(model => model.Fotografia, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
             @Html.LabelFor(model => model.Resumo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10" style="margin-top:5px;">
                 @Html.EditorFor(model => model.Resumo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Resumo, "", new { @class = "text-danger" })
             </div>
@@ -42,7 +69,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Criar" class="button" />
             </div>
         </div>
     </div>

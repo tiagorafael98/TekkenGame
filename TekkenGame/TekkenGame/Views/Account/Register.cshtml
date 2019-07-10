@@ -3,41 +3,71 @@
     ViewBag.Title = "Register";
 }
 
-<h2>@ViewBag.Title.</h2>
+<style>
+    body {
+        background-image: url(../../Fundos/Fundo3.jpg);
+    }
+
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        font-family: 'Lucida Console';
+        color: black;
+        background-color: white;
+        border: blue;
+        border-radius: 12px;
+        border: 2px solid #191970;
+    }
+
+        .button:hover {
+            background-color: #D3D3D3
+        }
+
+        .button:active {
+            background-color: #A9A9A9;
+            transform: translateY(2px);
+        }
+</style>
+
+<div style="font-family:'Lucida Console'; font-size:35px; color:white; margin-top:20px;">@ViewBag.Title</div>
+
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
+    <h4 style="color:white">Criar uma nova conta.</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
+    <div class="form-group" style="font-family:'Lucida Console'; color:white;">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" style="font-family:'Lucida Console'; color:white;">
         @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
+        <div class="col-md-10" style="font-family:'Lucida Console'; color:white;">
             @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" style="font-family:'Lucida Console'; color:white;">
         @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
+        <div class="col-md-10" style="font-family:'Lucida Console'; color:white;">
             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" style="font-family:'Lucida Console'; color:white;">
         @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
+        <div class="col-md-10" style="font-family:'Lucida Console'; color:white;">
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" style="font-family:'Lucida Console'; color:white;">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+            <input type="submit" class="btn btn-default" value="Registar" />
         </div>
     </div>
 }

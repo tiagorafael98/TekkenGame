@@ -4,57 +4,83 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<style>
+    @* imagem de fundo *@
+    body {
+        background-image: url(../../Fundos/Fundo3.jpg);
+    }
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        font-family: 'Lucida Console';
+        color: black;
+        background-color: white;
+        border: blue;
+        border-radius: 12px;
+        border: 2px solid #191970;
+    }
+        .button:hover {
+            background-color: #D3D3D3
+        }
+        .button:active {
+            background-color: #A9A9A9;
+            transform: translateY(2px);
+        }
+</style>
+
+<div style="color:red; font-family:'Lucida Console'; font-size:48px; margin-top:30px;">Editar Personagem</div>
 
 
-@using (Html.BeginForm("Edit","Personagens",null,FormMethod.Post,new {@class="form-horizontal", role="form",enctype="multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Personagens", null, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Personagens</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
 
-        <div class="form-group">
+        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
             @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10" style="margin-top:5px;">
                 @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
             @Html.LabelFor(model => model.Origem, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10" style="margin-top:5px;">
                 @Html.EditorFor(model => model.Origem, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Origem, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
             @Html.LabelFor(model => model.TipoLuta, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10" style="margin-top:5px;">
                 @Html.EditorFor(model => model.TipoLuta, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.TipoLuta, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
             @Html.LabelFor(model => model.Fotografia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10" style="margin-top:5px;">
                 <a href="~/ImagemPers/@Model.Fotografia" target="_blank">
                     <img src="~/ImagemPers/@Model.Fotografia" height="150" />
                 </a>
-               @* procurar nova imagem *@
+                @* procurar nova imagem *@
                 <input type="file" name="uploadFotografia" style="color:blue;" accept=".jpg" />
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
             @Html.LabelFor(model => model.Biografia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10" style="margin-top:5px;">
                 @Html.EditorFor(model => model.Biografia, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Biografia, "", new { @class = "text-danger" })
             </div>
@@ -62,15 +88,17 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Salvar" class="button" />
             </div>
         </div>
     </div>
+    @*Botão para voltar à lista de Personagens*@
+    <div class="btn-group" role="group" style="margin-bottom:9px; padding-left: 195px;">
+        <button type="button" class="button" onclick="location.href='@Url.Action("Index","Personagens",new { id = Model.ID })'">Voltar para a lista de Personagens</button>
+    </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

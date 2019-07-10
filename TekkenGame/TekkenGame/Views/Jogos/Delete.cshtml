@@ -3,49 +3,67 @@
 @{
     ViewBag.Title = "Apagar jogo";
 }
-
-<h2>Apagar jogo</h2>
-
-<h3>Tem a certeza que pretende apagar este jogo da lista?</h3>
-<div>
-    <h4>Jogos</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Titulo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Titulo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Fotografia)
-        </dt>
-
-        <dd>
-            @*@Html.DisplayFor(model => model.Logotipo)*@
-            <a href="~/ImagemCapas/@Model.Fotografia" target="_blank">
-                <img src="~/ImagemCapas/@Model.Fotografia" width="150" height="160" />
-            </a>
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Resumo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Resumo)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Voltar à lista de jogos", "Index")
-        </div>
+<style>
+    body {
+        background-image: url(../../Fundos/Fundo3.jpg);
     }
+
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        font-family: 'Lucida Console';
+        color: black;
+        background-color: white;
+        border: blue;
+        border-radius: 12px;
+        border: 2px solid #191970;
+    }
+
+        .button:hover {
+            background-color: #D3D3D3
+        }
+
+        .button:active {
+            background-color: #A9A9A9;
+            transform: translateY(2px);
+        }
+</style>
+
+<div style="font-family: 'Lucida Console'; text-align: left;color: white; font-size: 32px;font-weight: bold;margin-top: 50px;">Tem a certeza que pretende apagar esta personagem da lista?</div>
+
+@*Alerta*@
+<div class="alert alert-warning" style="font-family:'Lucida Console'">
+    <strong>Atenção!</strong> Ao apagar esta personagem, todos os seus dados serão perdidos.
 </div>
+
+<div>
+    <div class="dl-horizontal">
+        @*Imagem do Jogo a apagar*@
+        <div>
+            <a href="/Jogos/Details/@Model.ID">
+                <img src="~/imagemCapas/@Model.Fotografia" width="250" height="260" />
+            </a>
+        </div>
+        @*Titulo do Jogo a apagar*@
+        <div style="color:red; margin-left:265px; margin-top:-260px; font-family:'Lucida Console'; font-size:35px;">
+            @Html.DisplayFor(model => model.Titulo)
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Apagar" class="button" style="margin-left:260px; margin-top:152px; font-size:25px;" /> |
+                @* botão para voltar à lista de Jogos *@
+                <div class="btn-group" role="group" style="margin-bottom:9px; padding-top:15px; padding-left: 0px;">
+                    <button type="button" class="button" onclick="location.href='@Url.Action("Index","Jogos",new { id = Model.ID })'">Voltar para a lista de Personagens</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

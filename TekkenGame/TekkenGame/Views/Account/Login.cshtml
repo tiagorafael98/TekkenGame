@@ -1,27 +1,59 @@
 ﻿@using TekkenGame.Models
 @model LoginViewModel
 @{
-    ViewBag.Title = "Log in";
+    ViewBag.Title = "Efetuar login";
 }
 
-<h2>@ViewBag.Title.</h2>
+<style>
+    body {
+        background-image: url(../../Fundos/Fundo3.jpg);
+    }
+
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        font-family: 'Lucida Console';
+        color: black;
+        background-color: white;
+        border: blue;
+        border-radius: 12px;
+        border: 2px solid #191970;
+    }
+
+        .button:hover {
+            background-color: #D3D3D3
+        }
+
+        .button:active {
+            background-color: #A9A9A9;
+            transform: translateY(2px);
+        }
+</style>
+
+<div style="font-family:'Lucida Console'; font-size:35px; color:white; margin-top:20px;">@ViewBag.Title</div>
+
 <div class="row">
     <div class="col-md-8">
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
+                <div class="alert alert-info" style="font-family:'Lucida Console'; font-size:15px; width:55%;">
+                    <strong> Efetue o login com uma conta registada.</strong>
+                </div>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
+                <div class="form-group" style="font-family:'Lucida Console'; color:white;">
                     @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
                         @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="font-family:'Lucida Console'; color:white;">
                     @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
@@ -30,7 +62,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
+                        <div class="checkbox" style="font-family:'Lucida Console'; color:white;">
                             @Html.CheckBoxFor(m => m.RememberMe)
                             @Html.LabelFor(m => m.RememberMe)
                         </div>
@@ -38,22 +70,17 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                        <input type="submit" value="Entrar" class="btn btn-default" />
                     </div>
                 </div>
                 <p>
-                    @Html.ActionLink("Register as a new user", "Register")
+                    @Html.ActionLink("Registar-se com uma nova conta", "Register")
                 </p>
                 @* Enable this once you have account confirmation enabled for password reset functionality
                     <p>
                         @Html.ActionLink("Forgot your password?", "ForgotPassword")
                     </p>*@
             }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
         </section>
     </div>
 </div>
