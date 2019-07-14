@@ -32,11 +32,11 @@
         }
 </style>
 
-<div style="font-family: 'Lucida Console'; text-align: left;color: white; font-size: 32px;font-weight: bold;margin-top: 50px;">Tem a certeza que pretende apagar esta personagem da lista?</div>
+<div style="font-family: 'Lucida Console'; text-align: left;color: white; font-size: 32px;font-weight: bold;margin-top: 50px;">Tem a certeza que pretende apagar este jogo da lista?</div>
 
 @*Alerta*@
 <div class="alert alert-warning" style="font-family:'Lucida Console'">
-    <strong>Atenção!</strong> Ao apagar esta personagem, todos os seus dados serão perdidos.
+    <strong>Atenção!</strong> Ao apagar este jogo, todos os seus dados serão perdidos.
 </div>
 
 <div>
@@ -60,7 +60,7 @@
                 <input type="submit" value="Apagar" class="button" style="margin-left:260px; margin-top:152px; font-size:25px;" /> |
                 @* botão para voltar à lista de Jogos *@
                 <div class="btn-group" role="group" style="margin-bottom:9px; padding-top:15px; padding-left: 0px;">
-                    <button type="button" class="button" onclick="location.href='@Url.Action("Index","Jogos",new { id = Model.ID })'">Voltar para a lista de Personagens</button>
+                    <button type="button" class="button" onclick="location.href='@Url.Action("Index","Jogos",new { id = Model.ID })'">Voltar para a lista de Jogos</button>
                 </div>
             </div>
         }

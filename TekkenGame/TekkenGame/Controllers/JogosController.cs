@@ -43,7 +43,10 @@ namespace TekkenGame.Controllers
         // GET: Jogos/Create
         public ActionResult Create()
         {
+            // gerar a lista de Personagens associadas ao Jogo
             ViewBag.ListaDePersonagens = db.Personagens.OrderBy(b => b.Nome).ToList();
+            // gerar a lista de Plataformas associadas ao Jogo
+            ViewBag.ListaDePlataformas = db.Plataformas.OrderBy(b => b.Nome).ToList();
             return View();
         }
 
@@ -52,9 +55,9 @@ namespace TekkenGame.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Titulo,Logotipo,Resumo")] Jogos jogo, HttpPostedFileBase uploadFotografia, string [] checkBoxPersonagens)
+        public ActionResult Create([Bind(Include = "ID,Titulo,Logotipo,Resumo")] Jogos jogo, HttpPostedFileBase uploadFotografia, string [] checkBoxPersonagens, string[] checkBoxPlataformas)
         {
-            /// avalia se o array com a lista de personagens associados
+            /// avalia se o array com a lista de Personagens associadas
             /// ao Jogo é nula ou não
             if (checkBoxPersonagens == null)
             {
@@ -75,7 +78,30 @@ namespace TekkenGame.Controllers
             
             jogo.ListaDePersonagens = ListaDePersonagensEscolhidas;
 
-            // ***********************************************************************************************************************************
+            // ************************************************************************************************************************************
+
+            /// avalia se o array com a lista de personagens associados
+            /// ao Jogo é nula ou não
+            if (checkBoxPlataformas == null)
+            {
+                ModelState.AddModelError("", "Necessita escolher pelo menos uma Personagem para associar ao Jogo");
+                ViewBag.ListaDePlataformas = db.Plataformas.OrderBy(a => a.Nome).ToList();
+                return View(jogo);
+            }
+
+            // criar uma lista
+            List<Plataformas> ListaDePlataformasEscolhidas = new List<Plataformas>();
+            foreach (string item in checkBoxPlataformas)
+            {
+                // procurar Personagem
+                Plataformas plataformas = db.Plataformas.Find(Convert.ToInt32(item));
+                // adicioná-lo à lista de plataformas
+                ListaDePlataformasEscolhidas.Add(plataformas);
+            }
+
+            jogo.ListaDePlataformas = ListaDePlataformasEscolhidas;
+
+            //***********************************************************************************************************************************
             int idNovoJogo = 0;
             try
             {
@@ -148,8 +174,10 @@ namespace TekkenGame.Controllers
                 return RedirectToAction("Index");
             }
 
-            // gerar a lista de Personagens associados ao Jogo 
+            // gerar a lista de Personagens associadas ao Jogo 
             ViewBag.ListaDePersonagens = db.Personagens.OrderBy(b => b.Nome).ToList();
+            // gerar a lista de Plataformas associadas ao Jogo
+            ViewBag.ListaDePlataformas = db.Plataformas.OrderBy(b => b.Nome).ToList();
 
             return View(jogo);
         }
@@ -159,7 +187,7 @@ namespace TekkenGame.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Titulo,Logotipo,Resumo,Fotografia")] Jogos jogo, HttpPostedFileBase uploadFotografia, string[] checkBoxPersonagens)
+        public ActionResult Edit([Bind(Include = "ID,Titulo,Logotipo,Resumo,Fotografia")] Jogos jogo, HttpPostedFileBase uploadFotografia, string[] checkBoxPersonagens, string[] checkBoxPlataformas)
         {
             // ler da BD o objeto que se pretende editar
             var jogos = db.Jogos.Include(b => b.ListaDePersonagens).Where(b => b.ID == jogo.ID).SingleOrDefault();
@@ -170,6 +198,7 @@ namespace TekkenGame.Controllers
                 jogos.Titulo = jogo.Titulo;
                 jogos.Logotipo = jogo.Logotipo;
                 jogos.Resumo = jogo.Resumo;
+                jogos.Fotografia = jogo.Fotografia;
             }
             else
             {
@@ -179,7 +208,7 @@ namespace TekkenGame.Controllers
             }
 
             // tentar fazer o UPDATE
-            if(TryUpdateModel(jogos, new string[] { nameof(jogos.Titulo), nameof(jogos.Logotipo), nameof(jogos.Resumo), nameof(jogos.ListaDePersonagens)}))
+            if(TryUpdateModel(jogos, new string[] { nameof(jogos.Titulo), nameof(jogos.Logotipo), nameof(jogos.Resumo), nameof(jogos.Fotografia), nameof(jogos.ListaDePersonagens)}))
             {
                 // obter lista de personagens
                 var personagens = db.Personagens.ToList();
@@ -226,7 +255,80 @@ namespace TekkenGame.Controllers
             ModelState.AddModelError("", "Alguma coisa correu mal...");
 
             //gerar a lista de personagens associados ao Jogo
-            ViewBag.ListaDePersonagens = db.Personagens.OrderBy(b => b.Nome).ToList();
+            ViewBag.ListaDePersonagens = db.Personagens.OrderBy(r => r.Nome).ToList();
+
+            // ***************************************************************************************************************************
+           
+            // ler da BD o objeto que se pretende editar
+            var jogoss = db.Jogos.Include(r => r.ListaDePlataformas).Where(r => r.ID == jogo.ID).SingleOrDefault();
+
+            // avaliar se os dados são 'bons'
+            if (ModelState.IsValid)
+            {
+                jogoss.Titulo = jogo.Titulo;
+                jogoss.Logotipo = jogo.Logotipo;
+                jogoss.Resumo = jogo.Resumo;
+                jogoss.Fotografia = jogo.Fotografia;
+            }
+            else
+            {
+                // gerar a lista de personagens associados ao Jogo
+                ViewBag.ListaDePlataformas = db.Plataformas.OrderBy(r => r.Nome).ToList();
+                return View(jogo);
+            }
+
+            // tentar fazer o UPDATE
+            if (TryUpdateModel(jogoss, new string[] { nameof(jogoss.Titulo), nameof(jogoss.Logotipo), nameof(jogoss.Resumo), nameof(jogoss.ListaDePlataformas) }))
+            {
+                // obter lista de personagens
+                var plataformas = db.Plataformas.ToList();
+
+                if (checkBoxPlataformas != null)
+                {
+                    foreach (var item in plataformas)
+                    {
+                        if (checkBoxPlataformas.Contains(item.ID.ToString()))
+                        {
+                            if (!jogoss.ListaDePlataformas.Contains(item))
+                            {
+                                jogoss.ListaDePlataformas.Add(item);
+                            }
+                        }
+                        else
+                        {
+                            // caso exista associação para uma opção que não foi escolhida,
+                            // remove-se essa associação
+                            jogoss.ListaDePlataformas.Remove(item);
+                        }
+                    }
+                }
+                else
+                {
+                    // não existem opções escolhidas!
+                    // vamos eliminar todas as associações
+                    foreach (var item in plataformas)
+                    {
+                        if (jogoss.ListaDePlataformas.Contains(item))
+                        {
+                            jogoss.ListaDePlataformas.Remove(item);
+                        }
+                    }
+                }
+
+                // guardar as alterações
+                db.SaveChanges();
+
+                // devolver controlo à View
+                return RedirectToAction("Index");
+            }
+
+            // se cheguei aqui, é porque alguma coisa correu mal
+            ModelState.AddModelError("", "Alguma coisa correu mal...");
+
+            //gerar a lista de personagens associados ao Jogo
+            ViewBag.ListaDePlataformas = db.Plataformas.OrderBy(r => r.Nome).ToList();
+
+            // ***************************************************************************************************************************
 
             string path = "";
 

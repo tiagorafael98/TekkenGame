@@ -77,9 +77,25 @@
     </div>
 
     <div class="form-group">
-        <span class="control-label col-md-2">Personagens associadas ao jogo:</span>
+        <span class="control-label col-md-2">Plataformas associadas ao jogo:</span>
         <div class="col-md-10">
             @{ string selected = "";}
+            @foreach (var item in ViewBag.ListaDePlataformas)
+            {
+                selected = "";
+                foreach (int opcaoID in Model.ListaDePlataformas.Select(b => b.ID))
+                {
+                    if (item.ID == opcaoID) { selected = "checked"; }
+                }
+                <input type="checkbox" name="checkBoxPlataformas" value="@item.ID" @selected /> @item.Nome
+                <br />
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        <span class="control-label col-md-2">Personagens associadas ao jogo:</span>
+        <div class="col-md-10">
             @foreach (var item in ViewBag.ListaDePersonagens)
             {
                 selected = "";
