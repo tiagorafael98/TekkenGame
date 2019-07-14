@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -21,13 +22,17 @@ namespace TekkenGame.Models
         
         public string Origem { get; set; }
         
+        [DisplayName("Tipo de luta")]
         public string TipoLuta { get; set; }
         
         public string Fotografia { get; set; }
         
         public string Biografia { get; set; }
 
+        [DisplayName("Lista de comentários")]
         public virtual ICollection<Comentarios> ListaDeComentarios { get; set; }
+
+        [DisplayName("Lista de jogos")]
         public virtual ICollection<Jogos> ListaDeJogos { get; set; }
     }
 }
