@@ -38,50 +38,67 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        @*<h4>Jogos</h4>*@
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
+<div class="form-horizontal">
+    @*<h4>Jogos</h4>*@
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
 
-        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
-            @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" style="margin-top:5px;">
-                @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
-            @Html.LabelFor(model => model.Fotografia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" style="margin-top:5px;">
-                @* mostrar a imagem associada ao Jogo *@
-                <a href="~/ImagemCapas/@Model.Fotografia" target="_blank">
-                    <img src="~/ImagemCapas/@Model.Fotografia" height="150" />
-                </a>
-
-                @* adição do objeto para fazer o file upload de uma fotografia *@
-                @Html.Hidden("Fotografia", Model.Fotografia)
-                <input type="file" name="uploadFotografia"
-                       style="color:blue;" accept=".jpg" ; />
-                @Html.ValidationMessageFor(model => model.Fotografia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
-            @Html.LabelFor(model => model.Resumo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" style="margin-top:5px;">
-                @Html.EditorFor(model => model.Resumo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Resumo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Salvar" class="btn btn-default" />
-            </div>
+    <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
+        @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10" style="margin-top:5px;">
+            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
+        @Html.LabelFor(model => model.Fotografia, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10" style="margin-top:5px;">
+            @* mostrar a imagem associada ao Jogo *@
+            <a href="~/ImagemCapas/@Model.Fotografia" target="_blank">
+                <img src="~/ImagemCapas/@Model.Fotografia" height="150" />
+            </a>
+
+            @* adição do objeto para fazer o file upload de uma fotografia *@
+            @Html.Hidden("Fotografia", Model.Fotografia)
+            <input type="file" name="uploadFotografia"
+                   style="color:blue;" accept=".jpg" ; />
+            @Html.ValidationMessageFor(model => model.Fotografia, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
+        @Html.LabelFor(model => model.Resumo, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10" style="margin-top:5px;">
+            @Html.EditorFor(model => model.Resumo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Resumo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <span class="control-label col-md-2">Personagens associadas ao jogo:</span>
+        <div class="col-md-10">
+            @{ string selected = "";}
+            @foreach (var item in ViewBag.ListaDePersonagens)
+            {
+                selected = "";
+                foreach (int opcaoID in Model.ListaDePersonagens.Select(b => b.ID))
+                {
+                    if (item.ID == opcaoID) { selected = "checked"; }
+                }
+                <input type="checkbox" name="checkBoxPersonagens" value="@item.ID" @selected /> @item.Nome
+                <br />
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Salvar" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
 <div class="btn-group" role="group" style="margin-bottom:9px; padding-top:10px; padding-left: 855px;">

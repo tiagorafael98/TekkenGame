@@ -274,8 +274,7 @@ namespace TekkenGame.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", string.Format("Não é possível apagar a personagem {1}",
-                                                           id, personagem.Nome)
-                                        );
+                                                           id, personagem.Nome));
             }
             // se cheguei aqui é porque houve um problema
             // devolvo os dados da Personagem à View

@@ -43,6 +43,7 @@ namespace TekkenGame.Controllers
         // GET: Jogos/Create
         public ActionResult Create()
         {
+            ViewBag.ListaDePersonagens = db.Personagens.OrderBy(b => b.Nome).ToList();
             return View();
         }
 
@@ -51,8 +52,30 @@ namespace TekkenGame.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Titulo,Logotipo,Resumo")] Jogos jogo, HttpPostedFileBase uploadFotografia)
+        public ActionResult Create([Bind(Include = "ID,Titulo,Logotipo,Resumo")] Jogos jogo, HttpPostedFileBase uploadFotografia, string [] checkBoxPersonagens)
         {
+            /// avalia se o array com a lista de personagens associados
+            /// ao Jogo é nula ou não
+            if (checkBoxPersonagens == null)
+            {
+                ModelState.AddModelError("", "Necessita escolher pelo menos uma Personagem para associar ao Jogo");
+                ViewBag.ListaDePersonagens = db.Personagens.OrderBy(a => a.Nome).ToList();
+                return View(jogo);
+            }
+
+            // criar uma lista
+            List<Personagens> ListaDePersonagensEscolhidas = new List<Personagens>();
+            foreach (string item in checkBoxPersonagens)
+            {
+                // procurar Personagem
+                Personagens persongens = db.Personagens.Find(Convert.ToInt32(item));
+                // adicioná-lo à lista de personagens
+                ListaDePersonagensEscolhidas.Add(persongens);
+            }
+            
+            jogo.ListaDePersonagens = ListaDePersonagensEscolhidas;
+
+            // ***********************************************************************************************************************************
             int idNovoJogo = 0;
             try
             {
@@ -125,6 +148,9 @@ namespace TekkenGame.Controllers
                 return RedirectToAction("Index");
             }
 
+            // gerar a lista de Personagens associados ao Jogo 
+            ViewBag.ListaDePersonagens = db.Personagens.OrderBy(b => b.Nome).ToList();
+
             return View(jogo);
         }
 
@@ -133,8 +159,75 @@ namespace TekkenGame.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Titulo,Logotipo,Resumo,Fotografia")] Jogos jogo, HttpPostedFileBase uploadFotografia)
+        public ActionResult Edit([Bind(Include = "ID,Titulo,Logotipo,Resumo,Fotografia")] Jogos jogo, HttpPostedFileBase uploadFotografia, string[] checkBoxPersonagens)
         {
+            // ler da BD o objeto que se pretende editar
+            var jogos = db.Jogos.Include(b => b.ListaDePersonagens).Where(b => b.ID == jogo.ID).SingleOrDefault();
+
+            // avaliar se os dados são 'bons'
+            if (ModelState.IsValid)
+            {
+                jogos.Titulo = jogo.Titulo;
+                jogos.Logotipo = jogo.Logotipo;
+                jogos.Resumo = jogo.Resumo;
+            }
+            else
+            {
+                // gerar a lista de personagens associados ao Jogo
+                ViewBag.ListaDePersonagens = db.Personagens.OrderBy(b => b.Nome).ToList();
+                return View(jogo);
+            }
+
+            // tentar fazer o UPDATE
+            if(TryUpdateModel(jogos, new string[] { nameof(jogos.Titulo), nameof(jogos.Logotipo), nameof(jogos.Resumo), nameof(jogos.ListaDePersonagens)}))
+            {
+                // obter lista de personagens
+                var personagens = db.Personagens.ToList();
+                
+                if(checkBoxPersonagens != null)
+                {
+                    foreach(var item in personagens)
+                    {
+                        if(checkBoxPersonagens.Contains(item.ID.ToString()))
+                        {
+                            if (!jogos.ListaDePersonagens.Contains(item))
+                            {
+                                jogos.ListaDePersonagens.Add(item);
+                            }
+                        }
+                        else
+                        {
+                            // caso exista associação para uma opção que não foi escolhida,
+                            // remove-se essa associação
+                            jogos.ListaDePersonagens.Remove(item);
+                        }
+                    }
+                } else
+                {
+                    // não existem opções escolhidas!
+                    // vamos eliminar todas as associações
+                    foreach(var item in personagens)
+                    {
+                        if (jogos.ListaDePersonagens.Contains(item))
+                        {
+                            jogos.ListaDePersonagens.Remove(item);
+                        }
+                    }
+                }
+
+                // guardar as alterações
+                db.SaveChanges();
+
+                // devolver controlo à View
+                return RedirectToAction("Index");
+            }
+
+            // se cheguei aqui, é porque alguma coisa correu mal
+            ModelState.AddModelError("", "Alguma coisa correu mal...");
+
+            //gerar a lista de personagens associados ao Jogo
+            ViewBag.ListaDePersonagens = db.Personagens.OrderBy(b => b.Nome).ToList();
+
             string path = "";
 
             if (uploadFotografia == null)

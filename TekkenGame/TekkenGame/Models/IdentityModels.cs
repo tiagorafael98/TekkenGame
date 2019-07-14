@@ -38,6 +38,7 @@ namespace TekkenGame.Models
         public virtual DbSet<Comentarios> Comentarios { get; set; } // tabela Comentarios
 
 
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();

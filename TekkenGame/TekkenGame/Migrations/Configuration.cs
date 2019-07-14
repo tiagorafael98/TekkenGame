@@ -222,6 +222,7 @@
             personagens.ForEach(aa => context.Personagens.AddOrUpdate(a => a.ID, aa));
             context.SaveChanges();
 
+
             // adiciona Comentários
             var comentarios = new List<Comentarios>
             {
