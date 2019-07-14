@@ -38,60 +38,78 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
 
-        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
-            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" style="margin-top:5px;">
-                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
-            @Html.LabelFor(model => model.Origem, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" style="margin-top:5px;">
-                @Html.EditorFor(model => model.Origem, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Origem, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
-            @Html.LabelFor(model => model.TipoLuta, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" style="margin-top:5px;">
-                @Html.EditorFor(model => model.TipoLuta, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TipoLuta, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
-            @Html.LabelFor(model => model.Fotografia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" style="margin-top:5px;">
-                <a href="~/ImagemPers/@Model.Fotografia" target="_blank">
-                    <img src="~/ImagemPers/@Model.Fotografia" height="150" />
-                </a>
-                @* procurar nova imagem *@
-                <input type="file" name="uploadFotografia" style="color:blue;" accept=".jpg" />
-            </div>
-        </div>
-
-        <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
-            @Html.LabelFor(model => model.Biografia, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" style="margin-top:5px;">
-                @Html.EditorFor(model => model.Biografia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Biografia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Salvar" class="button" />
-            </div>
+    <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
+        @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10" style="margin-top:5px;">
+            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
+        @Html.LabelFor(model => model.Origem, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10" style="margin-top:5px;">
+            @Html.EditorFor(model => model.Origem, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Origem, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
+        @Html.LabelFor(model => model.TipoLuta, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10" style="margin-top:5px;">
+            @Html.EditorFor(model => model.TipoLuta, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.TipoLuta, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
+        @Html.LabelFor(model => model.Fotografia, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10" style="margin-top:5px;">
+            <a href="~/ImagemPers/@Model.Fotografia" target="_blank">
+                <img src="~/ImagemPers/@Model.Fotografia" height="150" />
+            </a>
+            @* procurar nova imagem *@
+            <input type="file" name="uploadFotografia" style="color:blue;" accept=".jpg" />
+        </div>
+    </div>
+
+    <div class="form-group" style="color:white; font-family:'Lucida Console'; font-size:17px;">
+        @Html.LabelFor(model => model.Biografia, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10" style="margin-top:5px;">
+            @Html.EditorFor(model => model.Biografia, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Biografia, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <span class="control-label col-md-2">Jogos associados à Personagem:</span>
+        <div class="col-md-10">
+            @{ string selected = "";}
+            @foreach (var item in ViewBag.ListaDeJogos)
+            {
+                selected = "";
+                foreach (int opcaoID in Model.ListaDeJogos.Select(b => b.ID))
+                {
+                    if (item.ID == opcaoID) { selected = "checked"; }
+                }
+                <input type="checkbox" name="checkBoxJogos" value="@item.ID" @selected /> @item.Titulo
+                <br />
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Salvar" class="button" />
+        </div>
+    </div>
+</div>
+
     @*Botão para voltar à lista de Personagens*@
     <div class="btn-group" role="group" style="margin-bottom:9px; padding-left: 195px;">
         <button type="button" class="button" onclick="location.href='@Url.Action("Index","Personagens",new { id = Model.ID })'">Voltar para a lista de Personagens</button>
