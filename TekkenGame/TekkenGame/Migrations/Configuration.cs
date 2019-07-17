@@ -20,6 +20,7 @@
                 new Utilizadores {ID=1, UserName ="tiago-rafael_98", NomeCompleto = "Tiago Rafael Vasconcelos Caires Cândido", DataNascimento = new DateTime(1998,8,10),  Email = "tiago-rafael_98@hotmail.com"},
                 new Utilizadores {ID=2, UserName ="racggoncalves", NomeCompleto = "Rafael André Campos Gonçalves", Email = "racggoncalves@gmail.com", DataNascimento = new DateTime(1992,4,11)},
                 new Utilizadores {ID=3, UserName ="hugo.gr.mq", NomeCompleto = "Hugo Marques", Email = "hugo.gr.mq@gmail.com", DataNascimento = new DateTime(1996,10,2)},
+                new Utilizadores {ID=4, UserName ="admin", NomeCompleto = "admin", Email = "admin@mail.pt", DataNascimento = new DateTime(1991,10,2)},
             };
             utilizadores.ForEach(dd => context.Utilizadores.AddOrUpdate(d => d.ID, dd));
             context.SaveChanges();

@@ -45,6 +45,8 @@
             @* nome do jogo *@
             <div style="color: red; font-family: 'Lucida Console'; text-align: left; font-size:47px; font-weight: bold; margin-top: -10px; margin-left: 20px; width: 100%;">
                 @Html.DisplayFor(model => model.Titulo)
+                <hr />
+                @Html.Raw(User.Identity.Name)
             </div>
             @* enredo do jogo *@
             <div style="font-family:'Lucida Console'; font-size:16.5px; color:white; text-align:justify; margin-left:20px;">
@@ -55,12 +57,12 @@
             <div style="font-family:'Lucida Console'; font-size: 18px; color: black;text-align:justify; padding-top:2px; margin-left:20px;">
                 @if (Model.ListaDePlataformas.Count() > 0)
                 {
-                foreach (var plataforma in Model.ListaDePlataformas)
-                {
-                <a href="~/ImagemPlat/@Model.Logotipo" target="_blank">
-                    <img src="~/ImagemPlat/@plataforma.Logotipo" width="130" height="100" />
-                </a>
-                }
+                    foreach (var plataforma in Model.ListaDePlataformas)
+                    {
+                        <a href="~/ImagemPlat/@Model.Logotipo" target="_blank">
+                            <img src="~/ImagemPlat/@plataforma.Logotipo" width="130" height="100" />
+                        </a>
+                    }
                 }
             </div>
         </div>
@@ -71,23 +73,23 @@
 <div style=" display:flex; flex-wrap:wrap; flex-direction:row; justify-content:space-around; align-content:center; margin-top: -4px;">
     @if (Model.ListaDePersonagens.Count() > 0)
     {
-    foreach (var personagem in Model.ListaDePersonagens)
-    {
-    <div style="padding-top: 15px">
-        <a href="~/Personagens/Details/@personagem.ID">
-            <img src="~/ImagemPers/@personagem.Fotografia" width="150" height="160" />
-        </a>
-    </div>
-    }
+        foreach (var personagem in Model.ListaDePersonagens)
+        {
+            <div style="padding-top: 15px">
+                <a href="~/Personagens/Details/@personagem.ID">
+                    <img src="~/ImagemPers/@personagem.Fotografia" width="150" height="160" />
+                </a>
+            </div>
+        }
     }
 </div>
 @* botões de editar a personagem somente para o administrador *@
 @if (User.IsInRole("Admin"))
 {
-<div class="btn-group" role="group" style="margin-bottom:9px; margin-top:20px; padding-left: 855px;">
-    <button type="button" class="button" onclick="location.href='@Url.Action("Edit","Jogos", new { id=Model.ID })'">Editar jogo</button>
-    <button type="button" class="button" onclick="location.href='@Url.Action("Delete","Jogos", new { id=Model.ID })'">Apagar jogo</button>
-</div>
+    <div class="btn-group" role="group" style="margin-bottom:9px; margin-top:20px; padding-left: 855px;">
+        <button type="button" class="button" onclick="location.href='@Url.Action("Edit","Jogos", new { id=Model.ID })'">Editar jogo</button>
+        <button type="button" class="button" onclick="location.href='@Url.Action("Delete","Jogos", new { id=Model.ID })'">Apagar jogo</button>
+    </div>
 }
 
 @* botão para voltar à lista de jogos *@
@@ -102,45 +104,45 @@
     <hr class="estilo3">
     @if (!User.Identity.IsAuthenticated)
     {
-    <div class="alert alert-info" style="margin-top:20px; margin-right:690px">
-        <strong>Nota:</strong> Para adicionar um comentário é necessário iniciar sessão!
-    </div>
+        <div class="alert alert-info" style="margin-top:20px; margin-right:690px">
+            <strong>Nota:</strong> Para adicionar um comentário é necessário iniciar sessão!
+        </div>
     }
 
     else
     {
-    <div style="margin-top:30px">
-        @using (Html.BeginForm("Create", "Comentarios", FormMethod.Post))
-        {
-        @Html.AntiForgeryToken()
-        @Html.Hidden("JogoFK", Model.ID)
-        @Html.Hidden("Username", User.Identity.Name)
-        @Html.TextArea("Texto", "", 4, 100, htmlAttributes: new { @placeholder = "Adicione um Comentário" })
-        <button type="submit" name=" botaoComentario" class="btn btn-primary "> Comentar </button>
-        }
-    </div>
+        <div style="margin-top:30px">
+            @using (Html.BeginForm("Create", "Comentarios", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("JogoFK", Model.ID)
+                @Html.Hidden("Username", User.Identity.Name)
+                @Html.TextArea("Texto", "", 4, 100, htmlAttributes: new { @placeholder = "Adicione um Comentário" })
+                <button type="submit" name=" botaoComentario" class="btn btn-primary "> Comentar </button>
+            }
+        </div>
     }
     @foreach (var comentario in Model.ListaDeComentarios)
     {
 
-    <dt>
-        <img src="~/UserFoto/UserFotoM.jpg" width="30" height="30" />
-        @Html.DisplayFor(c => comentario.Utilizadores.UserName)
-    </dt>
+        <dt>
+            <img src="~/ImagemUser/ImagemUser.jpg" width="30" height="30" />
+            @Html.DisplayFor(c => comentario.Utilizadores.UserName)
+        </dt>
 
-    <dd>
-        @Html.DisplayFor(c => comentario.Texto) -
-        @Html.DisplayFor(c => comentario.DataComentario)
-        @if (User.Identity.Name.Equals(comentario.Utilizadores.UserName) || User.IsInRole("Admin"))
-        {
-        <a href='@Url.Action("Delete", "Comentarios", new { id = comentario.ID, JogoFK = comentario.JogoFK })'>
-            <i class="glyphicon glyphicon-remove-sign" style="color:red;width:50px;height:50px"></i>
-        </a>
-        <a href='@Url.Action("Edit", "Comentarios", new { id = comentario.ID, JogoFK = comentario.JogoFK })' class="glyphicon  glyphicon-pencil">
-        </a>
-        }
+        <dd>
+            @Html.DisplayFor(c => comentario.Texto) -
+            @Html.DisplayFor(c => comentario.DataComentario)
+            @if (User.Identity.Name.Equals(comentario.Utilizadores.UserName) || User.IsInRole("Admin"))
+            {
+                <a href='@Url.Action("Delete", "Comentarios", new { id = comentario.ID, JogoFK = comentario.JogoFK })'>
+                    <i class="glyphicon glyphicon-remove-sign" style="color:red;width:50px;height:50px"></i>
+                </a>
+                <a href='@Url.Action("Edit", "Comentarios", new { id = comentario.ID, JogoFK = comentario.JogoFK })' class="glyphicon  glyphicon-pencil">
+                </a>
+            }
 
-    </dd>
+        </dd>
 
 
     }

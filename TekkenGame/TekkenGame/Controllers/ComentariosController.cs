@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using TekkenGame.Models;
@@ -69,7 +70,15 @@ namespace TekkenGame.Controllers
 
             comentarios.DataComentario = DateTime.Now;
 
-            comentarios.UtilizadoresFK = db.Utilizadores.Where(a => a.UserName == Username).Single().ID;
+            List < Utilizadores > todos =  db.Utilizadores.ToList();
+            foreach(Utilizadores u in todos)
+            {
+                if (u.UserName == Username)
+                {
+                    comentarios.UtilizadoresFK = u.ID;
+                    break;
+                }
+            }
 
             if (ModelState.IsValid)
             {
@@ -102,7 +111,7 @@ namespace TekkenGame.Controllers
             {
                 return RedirectToAction("Index", "Jogo");
             }
-            if (comentarios.Utilizadores.Email.Equals(User.Identity.Name) || User.IsInRole("Admin"))
+            if (!(comentarios.Utilizadores.UserName.Equals(User.Identity.Name) || User.IsInRole("Admin")))
             {
                 return View(comentarios);
             }

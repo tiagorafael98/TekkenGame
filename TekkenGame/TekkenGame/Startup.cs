@@ -54,6 +54,8 @@ namespace TekkenGame
                 roleManager.Create(role);
             }
 
+
+
             //Adicionar o Utilizador à respetiva Role-Admin
             if (chkUser.Succeeded)
             {
