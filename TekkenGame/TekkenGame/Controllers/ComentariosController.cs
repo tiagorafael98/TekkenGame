@@ -143,7 +143,7 @@ namespace TekkenGame.Controllers
             return View(comentarios);
         }
 
-        // GET: Comentarios/Delete/5
+        //GET: Comentarios/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
