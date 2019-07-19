@@ -98,7 +98,7 @@ namespace TekkenGame.Controllers
             return RedirectToAction("Index", "Jogos");
         }
 
-        [Authorize(Roles = "Admin, Utilizador")]
+        //[Authorize(Roles = "Admin, Utilizador")]
         // GET: Comentarios/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -111,7 +111,8 @@ namespace TekkenGame.Controllers
             {
                 return RedirectToAction("Index", "Jogo");
             }
-            if (!(comentarios.Utilizadores.UserName.Equals(User.Identity.Name) || User.IsInRole("Admin")))
+            //---------------------------------------------------------------------
+            if (comentarios.Utilizadores.UserName.Equals(User.Identity.Name) || User.IsInRole("Admin"))
             {
                 return View(comentarios);
             }
@@ -129,6 +130,9 @@ namespace TekkenGame.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                comentarios.JogoFK = comentarios.JogoFK;
+                comentarios.UtilizadoresFK = comentarios.UtilizadoresFK;
                 comentarios.DataComentario = DateTime.Now;
                 db.Entry(comentarios).State = EntityState.Modified;
                 db.SaveChanges();
@@ -139,18 +143,17 @@ namespace TekkenGame.Controllers
             return View(comentarios);
         }
 
-        [Authorize(Roles = "Admin, Utilizador")]
         // GET: Comentarios/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Jogos");
             }
             Comentarios comentarios = db.Comentarios.Find(id);
             if (comentarios == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Jogos");
             }
             return View(comentarios);
         }
@@ -163,13 +166,12 @@ namespace TekkenGame.Controllers
             Comentarios comentarios = db.Comentarios.Find(id);
             try
             {
-
                 // remove o comentário da memória
                 db.Comentarios.Remove(comentarios);
                 // commit na BD
                 db.SaveChanges();
                 // redirecionar para a página inicial
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Jogos");
             }
             catch (Exception)
             {

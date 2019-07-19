@@ -45,8 +45,6 @@
             @* nome do jogo *@
             <div style="color: red; font-family: 'Lucida Console'; text-align: left; font-size:47px; font-weight: bold; margin-top: -10px; margin-left: 20px; width: 100%;">
                 @Html.DisplayFor(model => model.Titulo)
-                <hr />
-                @Html.Raw(User.Identity.Name)
             </div>
             @* enredo do jogo *@
             <div style="font-family:'Lucida Console'; font-size:16.5px; color:white; text-align:justify; margin-left:20px;">
@@ -125,12 +123,12 @@
     @foreach (var comentario in Model.ListaDeComentarios)
     {
 
-        <dt>
+        <dt style="color:white; font-family:'Lucida Console'; font-size:15px;">
             <img src="~/ImagemUser/ImagemUser.jpg" width="30" height="30" />
             @Html.DisplayFor(c => comentario.Utilizadores.UserName)
         </dt>
 
-        <dd>
+        <dd style="color:white; font-family:'Lucida Console'; font-size:12px;">
             @Html.DisplayFor(c => comentario.Texto) -
             @Html.DisplayFor(c => comentario.DataComentario)
             @if (User.Identity.Name.Equals(comentario.Utilizadores.UserName) || User.IsInRole("Admin"))

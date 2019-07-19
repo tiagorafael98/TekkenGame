@@ -4,10 +4,38 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<style>
+    body {
+        background-image: url(../../Fundos/Fundo3.jpg);
+    }
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        font-family: 'Lucida Console';
+        color: black;
+        background-color: white;
+        border: blue;
+        border-radius: 12px;
+        border: 2px solid #191970;
+    }
+
+        .button:hover {
+            background-color: #D3D3D3
+        }
+
+        .button:active {
+            background-color: #A9A9A9;
+            transform: translateY(2px);
+        }
+</style>
+
+<div style="font-family: 'Lucida Console'; text-align: left;color: white; font-size: 32px;font-weight: bold;margin-top: 50px;">Tem a certeza que pretende apagar este jogo da lista?</div>
+
+<div style="color:white; font-family:'Lucida Console'; font-size:15px;">
     <h4>Comentarios</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -45,12 +73,15 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Delete" class="btn btn-default"/> |
+            <button type="button" class="button" onclick="location.href='@Url.Action("Details","Jogos",new { id=Model.ID })'">Cancelar</button>
+            
         </div>
+
     }
 </div>
