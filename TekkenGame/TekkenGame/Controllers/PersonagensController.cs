@@ -305,7 +305,7 @@ namespace TekkenGame.Controllers
 
                     db.SaveChanges();
                     ViewBag.Jogos = db.Jogos;
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", "Personagens", new { id = personagem.ID });
 
                 }
 

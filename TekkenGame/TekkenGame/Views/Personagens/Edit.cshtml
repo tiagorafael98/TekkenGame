@@ -117,9 +117,10 @@
 </div>
 
     @*Botão para voltar à lista de Personagens*@
-    <div class="btn-group" role="group" style="margin-bottom:9px; padding-left: 195px;">
-        <button type="button" class="button" onclick="location.href='@Url.Action("Index","Personagens",new { id = Model.ID })'">Voltar para a lista de Personagens</button>
-    </div>
+<div class="btn-group" role="group" style="margin-bottom:9px; padding-left: 195px;">
+    <button type="button" class="button" onclick="location.href='@Url.Action("Details","Personagens",new { id=Model.ID })'">Voltar atrás</button>
+    <button type="button" class="button" onclick="location.href='@Url.Action("Index","Personagens",new { id = Model.ID })'">Voltar para a lista de Personagens</button>
+</div>
 }
 
 

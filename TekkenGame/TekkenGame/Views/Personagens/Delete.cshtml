@@ -65,9 +65,10 @@
         <div class="form-actions no-color">
             <input type="submit" value="Apagar" class="button" style="margin-left:260px; margin-top:129px; font-size:25px;" /> |
             @*Botão para voltar à lista de Jogos*@
-            <div class="btn-group" role="group" style="margin-bottom:9px; padding-top:13px; padding-left: 0px;">
-                <button type="button" class="button" onclick="location.href='@Url.Action("Index","Personagens",new { id = Model.ID })'">Voltar para a lista de Personagens</button>
-            </div>
+        <div class="btn-group" role="group" style="margin-bottom:9px; padding-top:13px; padding-left: 0px;">
+            <button type="button" class="button" onclick="location.href='@Url.Action("Details","Personagens",new { id=Model.ID })'">Voltar atrás</button>
+            <button type="button" class="button" onclick="location.href='@Url.Action("Index","Personagens",new { id = Model.ID })'">Voltar para a lista de Personagens</button>
+        </div>
         </div>
     }
 </div>
