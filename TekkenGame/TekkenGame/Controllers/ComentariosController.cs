@@ -51,7 +51,7 @@ namespace TekkenGame.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Texto,JogoFK")] Comentarios comentarios, string Username)
+        public ActionResult Create([Bind(Include = "Texto,JogoFK")] Comentarios comentario, string Username)
         {
 
             int idNovoComentario = 0;
@@ -66,36 +66,30 @@ namespace TekkenGame.Controllers
             }
 
             // guardar o ID do novo Jogo
-            comentarios.ID = idNovoComentario;
+            comentario.ID = idNovoComentario;
 
-            comentarios.DataComentario = DateTime.Now;
+            comentario.DataComentario = DateTime.Now;
 
             List<Utilizadores> todos = db.Utilizadores.ToList();
             foreach (Utilizadores u in todos)
             {
                 if (u.UserName == Username)
                 {
-                    comentarios.UtilizadoresFK = u.ID;
+                    comentario.UtilizadoresFK = u.ID;
                     break;
                 }
             }
 
             if (ModelState.IsValid)
             {
-                db.Comentarios.Add(comentarios);
+                db.Comentarios.Add(comentario);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Jogos", new { ID = comentarios.JogoFK });
+                return RedirectToAction("Details", "Jogos", new { ID = comentario.JogoFK });
             }
 
-            var errors = ModelState
-    .Where(x => x.Value.Errors.Count > 0)
-    .Select(x => new { x.Key, x.Value.Errors })
-    .ToArray();
-
-            ViewBag.JogoFK = new SelectList(db.Jogos, "ID", "Titulo", comentarios.JogoFK);
-            ViewBag.UtilizadoresFK = new SelectList(db.Utilizadores, "ID", "UserName", comentarios.UtilizadoresFK);
-            //return RedirectToAction("Details", "Jogos", new { ID = comentario.JogoFK });
-            return RedirectToAction("Index", "Jogos");
+            ViewBag.JogoFK = new SelectList(db.Jogos, "ID", "Titulo", comentario.JogoFK);
+            ViewBag.UtilizadoresFK = new SelectList(db.Utilizadores, "ID", "UserName", comentario.UtilizadoresFK);
+            return RedirectToAction("Details", "Jogos", new { ID = comentario.JogoFK });
         }
 
         //[Authorize(Roles = "Admin, Utilizador")]
@@ -109,7 +103,7 @@ namespace TekkenGame.Controllers
             Comentarios comentario = db.Comentarios.Find(id);
             if (comentario == null)
             {
-                return RedirectToAction("Index", "Jogo");
+                return RedirectToAction("Index", "Jogos");
             }
             //---------------------------------------------------------------------
             if (comentario.Utilizadores.UserName.Equals(User.Identity.Name) )
@@ -118,7 +112,10 @@ namespace TekkenGame.Controllers
             }
 
             // se aqui cheguei, é pq o user não tem autorização para editar o comentário
-            return RedirectToAction("Index", "Jogo");
+
+            ModelState.AddModelError("", "Não tem autorização para editar o comentário");
+
+            return RedirectToAction("Index");
         }
 
         // POST: Comentarios/Edit/5
@@ -135,7 +132,7 @@ namespace TekkenGame.Controllers
                 db.SaveChanges();
 
                 // reenviar o user para o jogo de onde o comentário diz respeito
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Jogos", new { ID = comentario.JogoFK });
             }
        
             return View(comentario);
@@ -161,22 +158,22 @@ namespace TekkenGame.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Comentarios comentarios = db.Comentarios.Find(id);
+            Comentarios comentario = db.Comentarios.Find(id);
             try
             {
                 // remove o comentário da memória
-                db.Comentarios.Remove(comentarios);
+                db.Comentarios.Remove(comentario);
                 // commit na BD
                 db.SaveChanges();
                 // redirecionar para a página inicial
-                return RedirectToAction("Index", "Jogos");
+                return RedirectToAction("Details", "Jogos", new { ID = comentario.JogoFK });
             }
             catch (Exception)
             {
                 // mensagem de erro
                 ModelState.AddModelError("", "Não foi possível remover.");
             }
-            return View(comentarios);
+            return View(comentario);
         }
 
         protected override void Dispose(bool disposing)

@@ -31,7 +31,7 @@
         }
 </style>
 
-<div style="color:red; font-family:'Lucida Console'; font-size:48px; margin-top:30px;">Editar Comentário</div>
+<div style="color:white; font-family:'Lucida Console'; font-size:48px; margin-top:30px;">Editar Comentário</div>
 
 
 @using (Html.BeginForm())
@@ -58,7 +58,7 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Save" class="btn btn-default" />
-            <button type="button" class="button" onclick="location.href='@Url.Action("Details","Jogos",new { id=Model.ID })'">Cancelar</button>
+            <button type="button" class="button" onclick="location.href='@Url.Action("Details","Jogos", new { ID = Model.JogoFK })'">Cancelar</button>
         </div>
     </div>
 </div>

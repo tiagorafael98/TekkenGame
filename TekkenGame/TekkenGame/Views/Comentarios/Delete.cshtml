@@ -33,7 +33,7 @@
         }
 </style>
 
-<div style="font-family: 'Lucida Console'; text-align: left;color: white; font-size: 32px;font-weight: bold;margin-top: 50px;">Tem a certeza que pretende apagar este jogo da lista?</div>
+<div style="font-family: 'Lucida Console'; text-align: left;color: white; font-size: 32px;font-weight: bold;margin-top: 50px;">Tem a certeza que pretende apagar este comentário?</div>
 
 <div style="color:white; font-family:'Lucida Console'; font-size:15px;">
     <h4>Comentarios</h4>
@@ -79,7 +79,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default"/> |
-            <button type="button" class="button" onclick="location.href='@Url.Action("Details","Jogos",new { id=Model.ID })'">Cancelar</button>
+            <button type="button" class="button" onclick="location.href='@Url.Action("Details","Jogos", new { ID = Model.JogoFK })'">Cancelar</button>
             
         </div>
 

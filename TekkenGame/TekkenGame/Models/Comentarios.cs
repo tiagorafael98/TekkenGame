@@ -12,6 +12,7 @@ namespace TekkenGame.Models
         [Key]
         public int ID { get; set; }
 
+        [Required]
         public string Texto { get; set; }
 
         public DateTime DataComentario { get; set; }
