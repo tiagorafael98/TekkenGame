@@ -70,8 +70,8 @@ namespace TekkenGame.Controllers
 
             comentarios.DataComentario = DateTime.Now;
 
-            List < Utilizadores > todos =  db.Utilizadores.ToList();
-            foreach(Utilizadores u in todos)
+            List<Utilizadores> todos = db.Utilizadores.ToList();
+            foreach (Utilizadores u in todos)
             {
                 if (u.UserName == Username)
                 {
@@ -94,7 +94,7 @@ namespace TekkenGame.Controllers
 
             ViewBag.JogoFK = new SelectList(db.Jogos, "ID", "Titulo", comentarios.JogoFK);
             ViewBag.UtilizadoresFK = new SelectList(db.Utilizadores, "ID", "UserName", comentarios.UtilizadoresFK);
-            //return RedirectToAction("Details", "Jogos", new { ID = comentarios.JogoFK });
+            //return RedirectToAction("Details", "Jogos", new { ID = comentario.JogoFK });
             return RedirectToAction("Index", "Jogos");
         }
 
@@ -106,19 +106,19 @@ namespace TekkenGame.Controllers
             {
                 return RedirectToAction("Index", "Jogos");
             }
-            Comentarios comentarios = db.Comentarios.Find(id);
-            if (comentarios == null)
+            Comentarios comentario = db.Comentarios.Find(id);
+            if (comentario == null)
             {
                 return RedirectToAction("Index", "Jogo");
             }
             //---------------------------------------------------------------------
-            if (comentarios.Utilizadores.UserName.Equals(User.Identity.Name) || User.IsInRole("Admin"))
+            if (comentario.Utilizadores.UserName.Equals(User.Identity.Name) )
             {
-                return View(comentarios);
+                return View(comentario);
             }
-            ViewBag.JogoFK = new SelectList(db.Jogos, "ID", "Titulo", comentarios.JogoFK);
-            ViewBag.UtilizadoresFK = new SelectList(db.Utilizadores, "ID", "UserName", comentarios.UtilizadoresFK);
-            return View(comentarios);
+
+            // se aqui cheguei, é pq o user não tem autorização para editar o comentário
+            return RedirectToAction("Index", "Jogo");
         }
 
         // POST: Comentarios/Edit/5
@@ -126,21 +126,19 @@ namespace TekkenGame.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Texto,DataComentario,JogoFK,UtilizadoresFK")] Comentarios comentarios)
+        public ActionResult Edit([Bind(Include = "ID,Texto,DataComentario,JogoFK,UtilizadoresFK")] Comentarios comentario)
         {
             if (ModelState.IsValid)
             {
-
-                comentarios.JogoFK = comentarios.JogoFK;
-                comentarios.UtilizadoresFK = comentarios.UtilizadoresFK;
-                comentarios.DataComentario = DateTime.Now;
-                db.Entry(comentarios).State = EntityState.Modified;
+                comentario.DataComentario = DateTime.Now;
+                db.Entry(comentario).State = EntityState.Modified;
                 db.SaveChanges();
+
+                // reenviar o user para o jogo de onde o comentário diz respeito
                 return RedirectToAction("Index");
             }
-            ViewBag.JogoFK = new SelectList(db.Jogos, "ID", "Titulo", comentarios.JogoFK);
-            ViewBag.UtilizadoresFK = new SelectList(db.Utilizadores, "ID", "UserName", comentarios.UtilizadoresFK);
-            return View(comentarios);
+       
+            return View(comentario);
         }
 
         //GET: Comentarios/Delete/5

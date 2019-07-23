@@ -22,8 +22,14 @@ namespace TekkenGame.Models
         [DisplayName("Título")]
         public string Titulo { get; set; }
        
+        /// <summary>
+        /// logotipo do jogo
+        /// </summary>
         public string Logotipo { get; set; }
         
+        /// <summary>
+        /// imagem da capa do jogo
+        /// </summary>
         public string Fotografia { get; set; }
        
         public string Resumo { get; set; }

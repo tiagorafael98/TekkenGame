@@ -55,7 +55,7 @@ namespace TekkenGame.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Titulo,Logotipo,Resumo")] Jogos jogo, HttpPostedFileBase uploadFotografia, string [] checkBoxPersonagens, string[] checkBoxPlataformas)
+        public ActionResult Create([Bind(Include = "ID,Titulo,Logotipo,Resumo")] Jogos jogo, HttpPostedFileBase uploadFotografia, string[] checkBoxPersonagens, string[] checkBoxPlataformas)
         {
             /// avalia se o array com a lista de Personagens associadas
             /// ao Jogo é nula ou não
@@ -75,7 +75,7 @@ namespace TekkenGame.Controllers
                 // adicioná-lo à lista de personagens
                 ListaDePersonagensEscolhidas.Add(persongens);
             }
-            
+
             jogo.ListaDePersonagens = ListaDePersonagensEscolhidas;
 
             // ************************************************************************************************************************************
@@ -189,60 +189,90 @@ namespace TekkenGame.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Titulo,Logotipo,Resumo,Fotografia")] Jogos jogo, HttpPostedFileBase uploadFotografia, string[] checkBoxPersonagens, string[] checkBoxPlataformas)
         {
-            // ler da BD o objeto que se pretende editar
-            var jogos = db.Jogos.Include(b => b.ListaDePersonagens).Where(b => b.ID == jogo.ID).SingleOrDefault();
+            // ler da BD os dados existentes sobre o objeto que se pretende editar
+            var vAnteriorDoJogo = db.Jogos.Include(b => b.ListaDePersonagens).Include(b => b.ListaDePlataformas).Where(b => b.ID == jogo.ID).SingleOrDefault();
+
+            // há imagens para alterar????
+            //    - logótipo ?
+            //    - capa ?
+
+            // há personagens para alterar?
+
+            // e plataformas????
+
+            // e depois, há q guardar os dados na bd
+
+
+
+
 
             // avaliar se os dados são 'bons'
             if (ModelState.IsValid)
             {
-                jogos.Titulo = jogo.Titulo;
-                jogos.Logotipo = jogo.Logotipo;
-                jogos.Resumo = jogo.Resumo;
-                jogos.Fotografia = jogo.Fotografia;
+                vAnteriorDoJogo.Titulo = jogo.Titulo;
+                vAnteriorDoJogo.Logotipo = jogo.Logotipo;
+                vAnteriorDoJogo.Resumo = jogo.Resumo;
+                vAnteriorDoJogo.Fotografia = jogo.Fotografia;
             }
             else
             {
                 // gerar a lista de personagens associados ao Jogo
                 ViewBag.ListaDePersonagens = db.Personagens.OrderBy(b => b.Nome).ToList();
+                // gerar a lista de Plataformas associadas ao Jogo
+                ViewBag.ListaDePlataformas = db.Plataformas.OrderBy(b => b.Nome).ToList();
                 return View(jogo);
             }
 
             // tentar fazer o UPDATE
-            if(TryUpdateModel(jogos, new string[] { nameof(jogos.Titulo), nameof(jogos.Logotipo), nameof(jogos.Resumo), nameof(jogos.Fotografia), nameof(jogos.ListaDePersonagens)}))
+            if (TryUpdateModel(vAnteriorDoJogo, new string[] { nameof(vAnteriorDoJogo.Titulo), nameof(vAnteriorDoJogo.Logotipo), nameof(vAnteriorDoJogo.Resumo), nameof(vAnteriorDoJogo.Fotografia), nameof(vAnteriorDoJogo.ListaDePersonagens) }))
             {
+                //*****************************************************************************************************
+                // processar as personagens
+                //*****************************************************************************************************
                 // obter lista de personagens
                 var personagens = db.Personagens.ToList();
-                
-                if(checkBoxPersonagens != null)
+
+                if (checkBoxPersonagens != null)
                 {
-                    foreach(var item in personagens)
+                    foreach (var item in personagens)
                     {
-                        if(checkBoxPersonagens.Contains(item.ID.ToString()))
+                        if (checkBoxPersonagens.Contains(item.ID.ToString()))
                         {
-                            if (!jogos.ListaDePersonagens.Contains(item))
+                            if (!vAnteriorDoJogo.ListaDePersonagens.Contains(item))
                             {
-                                jogos.ListaDePersonagens.Add(item);
+                                vAnteriorDoJogo.ListaDePersonagens.Add(item);
                             }
                         }
                         else
                         {
                             // caso exista associação para uma opção que não foi escolhida,
                             // remove-se essa associação
-                            jogos.ListaDePersonagens.Remove(item);
-                        }
-                    }
-                } else
-                {
-                    // não existem opções escolhidas!
-                    // vamos eliminar todas as associações
-                    foreach(var item in personagens)
-                    {
-                        if (jogos.ListaDePersonagens.Contains(item))
-                        {
-                            jogos.ListaDePersonagens.Remove(item);
+                            vAnteriorDoJogo.ListaDePersonagens.Remove(item);
                         }
                     }
                 }
+                else
+                {
+                    // não existem opções escolhidas!
+                    // vamos eliminar todas as associações
+                    foreach (var item in personagens)
+                    {
+                        if (vAnteriorDoJogo.ListaDePersonagens.Contains(item))
+                        {
+                            vAnteriorDoJogo.ListaDePersonagens.Remove(item);
+                        }
+                    }
+                }
+
+
+                //*****************************************************************************************************
+                // processar as plataformas
+                //*****************************************************************************************************
+
+                // fazer algo semelhante ao q foi feito com as personagens
+
+
+
 
                 // guardar as alterações
                 db.SaveChanges();
@@ -256,9 +286,11 @@ namespace TekkenGame.Controllers
 
             //gerar a lista de personagens associados ao Jogo
             ViewBag.ListaDePersonagens = db.Personagens.OrderBy(r => r.Nome).ToList();
+            // gerar a lista de Plataformas associadas ao Jogo
+            ViewBag.ListaDePlataformas = db.Plataformas.OrderBy(b => b.Nome).ToList();
 
             // ***************************************************************************************************************************
-           
+
             // ler da BD o objeto que se pretende editar
             var jogoss = db.Jogos.Include(r => r.ListaDePlataformas).Where(r => r.ID == jogo.ID).SingleOrDefault();
 
